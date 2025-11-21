@@ -35,6 +35,14 @@ export default function SignUp({ onSwitchToSignIn }) {
             className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-600"
           />
         </div>
+         <div className="mb-6">
+          <label className="block mb-1 font-medium text-gray-700">Confirm Password</label>
+          <input
+            type=" confirm password"
+            placeholder="Confirm a password"
+            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-600"
+          />
+        </div>
 
         {/* Sign Up Button */}
         <button className="w-full bg-blue-50 hover:bg-[#a8815e] text-black py-2 rounded font-medium mb-4">
