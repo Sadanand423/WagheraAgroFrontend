@@ -186,7 +186,7 @@ export default function SeaSide() {
           "Choosing Bokinn was one of the best decisions we’ve ever made. They have proven to be a reliable and innovative partner, always ready to tackle new challenges with expertise. Their commitment to and delivering tailored.",
       },
     ];
-    
+           
       const slides = [
       {
         title1: "Luxury Stay Hotel Experience",
