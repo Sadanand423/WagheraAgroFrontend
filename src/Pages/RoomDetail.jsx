@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Rooms from '../Components/roomdetails/Rooms';
+import RoomHero from '../Components/roomdetails/RoomHero';
 
 const RoomDetail = () => {
   const location = useLocation();
@@ -10,6 +11,7 @@ const RoomDetail = () => {
 
   return (
     <div>
+      {isAtRoomDetail && <RoomHero />}
       {isAtRoomDetail && <Rooms />}
       <Outlet />
     </div>
