@@ -546,7 +546,6 @@ const Booking = () => {
             </div>
           )}
 
-          {/* Warning */}
           {showAgeWarning && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
               <div className="bg-white rounded-2xl p-8 max-w-sm w-full shadow-2xl text-center mx-4">
@@ -562,6 +561,8 @@ const Booking = () => {
               </div>
             </div>
           )}
+
+
 
           {/* ⭐ ROOM TYPE ⭐ */}
           <div className="w-full md:w-auto flex-1">
