@@ -1,3 +1,96 @@
+// import React, { useState, useEffect } from "react";
+
+// const BASE_URL = "http://localhost:8080/api/admin/rooms";
+
+// const Rooms = () => {
+//   const [rooms] = useState([
+//     { id: 1, name: 'Deluxe Room', type: 'Double Bed', price: '$120/night', status: 'Available' },
+//     { id: 2, name: 'Executive Suite', type: 'King Bed', price: '$200/night', status: 'Occupied' },
+//     { id: 3, name: 'Family Cottage', type: 'Multiple Beds', price: '$180/night', status: 'Available' },
+//     { id: 4, name: 'Luxury Villa', type: 'King Bed', price: '$300/night', status: 'Maintenance' },
+//     { id: 5, name: 'Standard Room', type: 'Single Bed', price: '$80/night', status: 'Available' },
+//   ]);
+
+//   const getStatusClass = (status) => {
+//     switch (status) {
+//       case 'Available':
+//         return 'bg-green-100 text-green-800';
+//       case 'Occupied':
+//         return 'bg-yellow-100 text-yellow-800';
+//       case 'Maintenance':
+//         return 'bg-red-100 text-red-800';
+//       default:
+//         return 'bg-gray-100 text-gray-800';
+//     }
+//   };
+
+//   return (
+//     <div className="p-4">
+//       <div className="mb-6">
+//         <h1 className="text-2xl font-bold text-gray-800">Rooms Management</h1>
+//         <p className="text-gray-600">Manage hotel rooms and availability</p>
+//       </div>
+
+//       <div className="bg-white rounded-lg shadow overflow-hidden">
+//         <div className="overflow-x-auto">
+//           <table className="min-w-full divide-y divide-gray-200">
+//             <thead className="bg-gray-50">
+//               <tr>
+//                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+//                   ID
+//                 </th>
+//                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+//                   Room Name
+//                 </th>
+//                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+//                   Type
+//                 </th>
+//                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+//                   Price
+//                 </th>
+//                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+//                   Status
+//                 </th>
+//                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+//                   Actions
+//                 </th>
+//               </tr>
+//             </thead>
+//             <tbody className="bg-white divide-y divide-gray-200">
+//               {rooms.map((room) => (
+//                 <tr key={room.id}>
+//                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+//                     #{room.id}
+//                   </td>
+//                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+//                     {room.name}
+//                   </td>
+//                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+//                     {room.type}
+//                   </td>
+//                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+//                     {room.price}
+//                   </td>
+//                   <td className="px-6 py-4 whitespace-nowrap">
+//                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(room.status)}`}>
+//                       {room.status}
+//                     </span>
+//                   </td>
+//                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+//                     <button className="text-indigo-600 hover:text-indigo-900 mr-3">Edit</button>
+//                     <button className="text-red-600 hover:text-red-900">Delete</button>
+//                   </td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </table>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Rooms;
 import React, { useState, useEffect } from "react";
 
 const BASE_URL = "http://localhost:8080/api/admin/rooms";
@@ -8,24 +101,19 @@ const Rooms = () => {
   const [error, setError] = useState("");
 
   const [editingRoom, setEditingRoom] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(null);
-  const [activeMenu, setActiveMenu] = useState(null);
-
   const [showAddModal, setShowAddModal] = useState(false);
   const [newRoom, setNewRoom] = useState({
     roomName: "",
     type: "",
-    price: "",
-    roomCount: 1,
-    status: "Available",
+    price: 0,
+    status: "AVAILABLE",
   });
 
-  // Load rooms from backend
+  // Fetch rooms
   useEffect(() => {
     const fetchRooms = async () => {
       try {
         setLoading(true);
-        setError("");
         const res = await fetch(BASE_URL);
         if (!res.ok) throw new Error("Failed to load rooms");
         const data = await res.json();
@@ -42,65 +130,83 @@ const Rooms = () => {
 
   const getStatusClass = (status) => {
     switch (status) {
-      case "Available":
+      case "AVAILABLE":
         return "bg-green-100 text-green-800";
-      case "Occupied":
+      case "OCCUPIED":
         return "bg-yellow-100 text-yellow-800";
-      case "Maintenance":
+      case "MAINTENANCE":
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
     }
   };
 
-  const handleEdit = (room) => {
-    setEditingRoom(room);
-    setActiveMenu(null);
+  const handleAddChange = (e) => {
+    const { name, value } = e.target;
+    setNewRoom((prev) => ({
+      ...prev,
+      [name]: name === "price" ? Number(value) : value.toUpperCase(),
+    }));
   };
 
-  const handleDelete = (roomId) => {
-    setShowDeleteModal(roomId);
-    setActiveMenu(null);
+  const handleAddSubmit = async (e) => {
+    e.preventDefault();
+    const payload = {
+      roomName: newRoom.roomName.trim(),
+      type: newRoom.type.trim(),
+      price: Number(newRoom.price),
+      status: newRoom.status,
+    };
+    try {
+      const res = await fetch(BASE_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const created = await res.json();
+      setRooms((prev) => [...prev, created]);
+      setShowAddModal(false);
+      setNewRoom({ roomName: "", type: "", price: 0, status: "AVAILABLE" });
+    } catch (err) {
+      console.error(err);
+      alert(`Failed to create room: ${err.message}`);
+    }
   };
 
-  const handleView = (room) => {
-    alert(
-      `Room #${room.id}
-Name: ${room.roomName}
-Type: ${room.type}
-Price: ${room.price}
-Count: ${room.roomCount}
-Status: ${room.status}`
-    );
-    setActiveMenu(null);
-  };
-
-  const confirmDelete = async () => {
-    if (!showDeleteModal) return;
-    const id = showDeleteModal;
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this room?")) return;
     try {
       const res = await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Delete failed");
-      setRooms((prev) => prev.filter((r) => r.id !== id));
-      setShowDeleteModal(null);
+      setRooms((prev) => prev.filter((room) => room.id !== id));
     } catch (err) {
       console.error(err);
       alert("Failed to delete room");
     }
   };
 
-  const cancelDelete = () => setShowDeleteModal(null);
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditingRoom((prev) => ({
+      ...prev,
+      [name]: name === "price" ? Number(value) : value.toUpperCase(),
+    }));
+  };
 
-  const updateRoom = async (updatedRoom) => {
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const res = await fetch(`${BASE_URL}/${updatedRoom.id}`, {
+      const res = await fetch(`${BASE_URL}/${editingRoom.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedRoom),
+        body: JSON.stringify(editingRoom),
       });
       if (!res.ok) throw new Error("Update failed");
-      const saved = await res.json();
-      setRooms((prev) => prev.map((r) => (r.id === saved.id ? saved : r)));
+      const updated = await res.json();
+      setRooms((prev) =>
+        prev.map((room) => (room.id === updated.id ? updated : room))
+      );
       setEditingRoom(null);
     } catch (err) {
       console.error(err);
@@ -108,420 +214,151 @@ Status: ${room.status}`
     }
   };
 
-  const toggleMenu = (roomId) => {
-    setActiveMenu(activeMenu === roomId ? null : roomId);
-  };
-
-  // Add room handlers
-  const handleAddChange = (e) => {
-    const { name, value } = e.target;
-    setNewRoom((prev) => ({
-      ...prev,
-      [name]: name === "roomCount" ? Number(value) : value,
-    }));
-  };
-
-  const handleAddSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch(BASE_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newRoom),
-      });
-      if (!res.ok) throw new Error("Create failed");
-      const created = await res.json();
-      setRooms((prev) => [...prev, created]);
-      setShowAddModal(false);
-      setNewRoom({
-        roomName: "",
-        type: "",
-        price: "",
-        roomCount: 1,
-        status: "Available",
-      });
-    } catch (err) {
-      console.error(err);
-      alert("Failed to create room");
-    }
-  };
-
   return (
-    <div className="p-4">
-      {/* Header + Add Room button */}
-      <div className="mb-6 flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-[#a8815e]">Rooms Management</h1>
-          <p className="text-gray-600">Manage hotel rooms and availability</p>
-        </div>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-gray-800">
+          🏨 Rooms Management
+        </h1>
         <button
           onClick={() => setShowAddModal(true)}
-          className="px-4 py-2 bg-[#a8815e] text-white rounded-md hover:bg-yellow-800"
+          className="px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded shadow-lg hover:from-blue-600 hover:to-blue-800 transition-all"
         >
-          Add Room
+          + Add Room
         </button>
       </div>
 
-      {loading && (
-        <p className="mb-4 text-sm text-gray-500">Loading rooms...</p>
-      )}
-      {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
+      {loading && <p className="text-gray-500">Loading rooms...</p>}
+      {error && <p className="text-red-500">{error}</p>}
 
-      {/* Table */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  ID
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Room Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Type
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Price
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Count
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {rooms.map((room) => (
-                <tr key={room.id}>
-                  <td className="px-6 py-4 text-sm text-gray-500">#{room.id}</td>
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                    {room.roomName}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
-                    {room.type}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
-                    {room.price}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
-                    {room.roomCount}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(
-                        room.status
-                      )}`}
-                    >
-                      {room.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-500 relative">
-                    <button
-                      onClick={() => toggleMenu(room.id)}
-                      className="text-gray-500 hover:text-gray-700 focus:outline-none"
-                    >
-                      <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                      </svg>
-                    </button>
-
-                    {activeMenu === room.id && (
-                      <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
-                        <div className="py-1">
-                          <button
-                            onClick={() => handleView(room)}
-                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          >
-                            View
-                          </button>
-                          <button
-                            onClick={() => handleEdit(room)}
-                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => handleDelete(room.id)}
-                            className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))}
-              {!loading && rooms.length === 0 && (
-                <tr>
-                  <td
-                    colSpan={7}
-                    className="px-6 py-4 text-center text-sm text-gray-500"
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white rounded shadow-lg overflow-hidden">
+          <thead className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white">
+            <tr>
+              <th className="px-6 py-3 text-left">ID</th>
+              <th className="px-6 py-3 text-left">Room Name</th>
+              <th className="px-6 py-3 text-left">Type</th>
+              <th className="px-6 py-3 text-left">Price</th>
+              <th className="px-6 py-3 text-left">Status</th>
+              <th className="px-6 py-3 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rooms.map((room) => (
+              <tr
+                key={room.id}
+                className="hover:bg-gray-100 transition-colors"
+              >
+                <td className="px-6 py-4">{room.id}</td>
+                <td className="px-6 py-4 font-semibold">{room.roomName}</td>
+                <td className="px-6 py-4">{room.type}</td>
+                <td className="px-6 py-4">${room.price}</td>
+                <td className="px-6 py-4">
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusClass(
+                      room.status
+                    )}`}
                   >
-                    No rooms found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                    {room.status}
+                  </span>
+                </td>
+                <td className="px-6 py-4 flex gap-2">
+                  <button
+                    className="px-3 py-1 bg-yellow-200 text-yellow-800 rounded hover:bg-yellow-300 transition"
+                    onClick={() => setEditingRoom(room)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="px-3 py-1 bg-red-200 text-red-800 rounded hover:bg-red-300 transition"
+                    onClick={() => handleDelete(room.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {rooms.length === 0 && !loading && (
+              <tr>
+                <td colSpan={6} className="text-center py-6 text-gray-400">
+                  No rooms found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
 
-      {/* Edit Room Modal */}
-      {editingRoom && (
-        <div className="fixed inset-0 backdrop-blur-sm bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 max-w-md shadow-xl">
-            <EditRoomForm
-              room={editingRoom}
-              onUpdate={updateRoom}
-              onCancel={() => setEditingRoom(null)}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {showDeleteModal && (
-        <div className="fixed inset-0 backdrop-blur-sm bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 shadow-xl">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">
-              Confirm Deletion
-            </h3>
-            <p className="text-gray-500 mb-6">
-              Are you sure you want to delete this room?
-            </p>
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={cancelDelete}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={confirmDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Add Room Modal */}
-      {showAddModal && (
-        <div className="fixed inset-0 backdrop-blur-sm bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 max-w-md shadow-xl">
-            <h2 className="text-xl font-bold text-[#a8815e] mb-4">
-              Add New Room
+      {/* Modal Overlay */}
+      {(showAddModal || editingRoom) && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-xl w-96 p-6 animate-fadeIn">
+            <h2 className="text-xl font-bold mb-4">
+              {showAddModal ? "Add Room" : "Edit Room"}
             </h2>
-            <form onSubmit={handleAddSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Room Name
-                </label>
-                <input
-                  type="text"
-                  name="roomName"
-                  value={newRoom.roomName}
-                  onChange={handleAddChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a8815e]"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Type
-                </label>
-                <input
-                  type="text"
-                  name="type"
-                  value={newRoom.type}
-                  onChange={handleAddChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a8815e]"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Price
-                </label>
-                <input
-                  type="text"
-                  name="price"
-                  value={newRoom.price}
-                  onChange={handleAddChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a8815e]"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Room Count
-                </label>
-                <input
-                  type="number"
-                  min="1"
-                  name="roomCount"
-                  value={newRoom.roomCount}
-                  onChange={handleAddChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a8815e]"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Status
-                </label>
-                <select
-                  name="status"
-                  value={newRoom.status}
-                  onChange={handleAddChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a8815e]"
-                >
-                  <option value="Available">Available</option>
-                  <option value="Occupied">Occupied</option>
-                  <option value="Maintenance">Maintenance</option>
-                </select>
-              </div>
-              <div className="flex justify-end space-x-3 pt-2">
+            <form
+              onSubmit={showAddModal ? handleAddSubmit : handleEditSubmit}
+              className="space-y-3"
+            >
+              <input
+                type="text"
+                name="roomName"
+                value={showAddModal ? newRoom.roomName : editingRoom.roomName}
+                onChange={showAddModal ? handleAddChange : handleEditChange}
+                placeholder="Room Name"
+                required
+                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+              <input
+                type="text"
+                name="type"
+                value={showAddModal ? newRoom.type : editingRoom.type}
+                onChange={showAddModal ? handleAddChange : handleEditChange}
+                placeholder="Type"
+                required
+                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+              <input
+                type="number"
+                name="price"
+                value={showAddModal ? newRoom.price : editingRoom.price}
+                onChange={showAddModal ? handleAddChange : handleEditChange}
+                placeholder="Price"
+                required
+                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+              <select
+                name="status"
+                value={showAddModal ? newRoom.status : editingRoom.status}
+                onChange={showAddModal ? handleAddChange : handleEditChange}
+                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                <option value="AVAILABLE">Available</option>
+                <option value="OCCUPIED">Occupied</option>
+                <option value="MAINTENANCE">Maintenance</option>
+              </select>
+              <div className="flex justify-end gap-2 mt-2">
                 <button
                   type="button"
-                  onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  onClick={() => {
+                    setShowAddModal(false);
+                    setEditingRoom(null);
+                  }}
+                  className="px-4 py-2 border rounded hover:bg-gray-100 transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#a8815e] text-white rounded-md hover:bg-yellow-800 focus:outline-none focus:ring-2 focus:ring-[#a8815e]"
+                  className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700 transition"
                 >
-                  Save
+                  {showAddModal ? "Save" : "Update"}
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
-    </div>
-  );
-};
-
-// Edit Room Form
-const EditRoomForm = ({ room, onUpdate, onCancel }) => {
-  const [formData, setFormData] = useState({ ...room });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === "roomCount" ? Number(value) : value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onUpdate(formData);
-  };
-
-  return (
-    <div>
-      <h2 className="text-xl font-bold text-[#a8815e] mb-4">
-        Edit Room #{room.id}
-      </h2>
-      <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 gap-4 mb-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Room Name
-            </label>
-            <input
-              type="text"
-              name="roomName"
-              value={formData.roomName}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a8815e]"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Type
-            </label>
-            <input
-              type="text"
-              name="type"
-              value={formData.type}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a8815e]"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Price
-            </label>
-            <input
-              type="text"
-              name="price"
-              value={formData.price}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a8815e]"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Room Count
-            </label>
-            <input
-              type="number"
-              min="1"
-              name="roomCount"
-              value={formData.roomCount}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a8815e]"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Status
-            </label>
-            <select
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a8815e]"
-            >
-              <option value="Available">Available</option>
-              <option value="Occupied">Occupied</option>
-              <option value="Maintenance">Maintenance</option>
-            </select>
-          </div>
-        </div>
-        <div className="flex justify-end space-x-3">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-[#a8815e] text-white rounded-md hover:bg-yellow-800 focus:outline-none focus:ring-2 focus:ring-[#a8815e]"
-          >
-            Update Room
-          </button>
-        </div>
-      </form>
     </div>
   );
 };
