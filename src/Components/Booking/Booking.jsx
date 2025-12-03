@@ -907,7 +907,7 @@ const Booking = () => {
                 onClick={() => handleRoomClick(num)}
                 className="px-6 py-3 rounded-lg bg-[#f6efe7] text-gray-800 hover:bg-[#a8815e] hover:text-white font-medium transition-all"
               >
-                {num} Room{num > 1 ? "s" : ""}
+                {num} Room { num > 1 ? "s" : ""}
               </button>
             ))}
           </div>

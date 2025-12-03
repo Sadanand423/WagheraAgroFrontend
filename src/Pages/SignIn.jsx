@@ -218,20 +218,44 @@ export default function SignIn({ onSwitchToSignUp, onLoginSuccess }) {
 
         const result = await signInUser(formData);
 
+        // if (result.success && result.data.success) {
+        //     setMessage("Login successful!");
+        //     setMessageType("success");
+
+        //     // 🔥 Passing user details to App.jsx
+        //     onLoginSuccess({
+        //         id: result.data.id,
+        //         name: result.data.name,
+        //         email: result.data.email,
+        //     });
+
+        //     setFormData({ email: "", password: "" });
+
+        // }
+        
+        
         if (result.success && result.data.success) {
-            setMessage("Login successful!");
-            setMessageType("success");
+    setMessage("Login successful!");
+    setMessageType("success");
 
-            // 🔥 Passing user details to App.jsx
-            onLoginSuccess({
-                id: result.data.id,
-                name: result.data.name,
-                email: result.data.email,
-            });
+    // 🔥 Store user in localStorage (NEEDED FOR BOOKING)
+    localStorage.setItem("user", JSON.stringify({
+        id: result.data.id,
+        name: result.data.name,
+        email: result.data.email,
+    }));
 
-            setFormData({ email: "", password: "" });
+    // 🔥 Passing user details to App.jsx
+    onLoginSuccess({
+        id: result.data.id,
+        name: result.data.name,
+        email: result.data.email,
+    });
 
-        } else {
+    setFormData({ email: "", password: "" });
+}
+
+        else {
             setMessage(result.data.message || "Login failed");
             setMessageType("error");
         }
