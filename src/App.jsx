@@ -438,6 +438,9 @@ import Analytics from './Pages/Admin/Analytics';
 // === NEW IMPORT ===
 import Combo from './Pages/Admin/Combo';
 import ContactMessages from './Pages/Admin/ContactMessages';
+import AdminActivity from './Pages/Admin/AdminActivity';
+import AdminEvent from './Pages/Admin/AdminEvent';
+
 // ==================
 
 function App() {
@@ -537,7 +540,11 @@ function App() {
           <Route path="gallery" element={<GalleryAdmin />} />
           <Route path="settings" element={<Settings />} />
           <Route path="analytics" element={<Analytics />} />
-        </Route>
+   {/* <Route path="/admin/activities" element={<AdminActivity />} /> */}
+    <Route path="activities" element={<AdminActivity />} />
+        <Route path="events" element={<AdminEvent />} />
+
+</Route>
 
         {/* Normal Pages */}
         <Route path="/signin" element={<SignIn />} />

@@ -1,372 +1,1205 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Trash2, Pencil } from 'lucide-react'; // Import icons
+// // import React, { useState } from "react";
+// // import axios from "axios";
 
-// --- START: Edit Modal Component ---
-// This component handles the UI for editing an activity
-const EditModal = ({ activity, onClose, onChange, onSubmit }) => (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-        <div className="bg-white p-8 rounded-lg shadow-2xl w-full max-w-md">
-            <h2 className="text-2xl font-bold mb-4">Edit Activity</h2>
-            <form onSubmit={onSubmit}>
-                <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Title</label>
-                    <input
-                        type="text"
-                        name="title"
-                        value={activity.title}
-                        onChange={onChange}
-                        required
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea
-                        name="description"
-                        value={activity.description}
-                        onChange={onChange}
-                        rows="3"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                    ></textarea>
-                </div>
-                {/* File change is usually handled separately for simplicity, but we omit the file input here */}
-                <div className="flex justify-end space-x-3 mt-6">
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        className="py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        type="submit"
-                        className="py-2 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700"
-                    >
-                        Save Changes
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-);
-// --- END: Edit Modal Component ---
+// // const AdminActivity = () => {
+// //   const [title, setTitle] = useState("");
+// //   const [description, setDescription] = useState("");
+// //   const [file, setFile] = useState(null);
+// //   const [loading, setLoading] = useState(false);
+// //   const [message, setMessage] = useState("");
 
+// //   const handleSubmit = async (e) => {
+// //     e.preventDefault();
+
+// //     if (!title || !description || !file) {
+// //       setMessage("All fields are required");
+// //       return;
+// //     }
+
+// //     const formData = new FormData();
+// //     formData.append("title", title);
+// //     formData.append("description", description);
+// //     formData.append("file", file);
+
+// //     try {
+// //       setLoading(true);
+// //       await axios.post(
+// //         "http://localhost:5000/api/activities/create",
+// //         formData,
+// //         { headers: { "Content-Type": "multipart/form-data" } }
+// //       );
+
+// //       setMessage("✅ Activity created successfully");
+// //       setTitle("");
+// //       setDescription("");
+// //       setFile(null);
+// //     } catch (error) {
+// //       setMessage("❌ Failed to create activity");
+// //     } finally {
+// //       setLoading(false);
+// //     }
+// //   };
+
+// //   return (
+// //     <div style={styles.page}>
+// //       <div style={styles.card}>
+// //         <h2 style={styles.heading}>Create Activity</h2>
+
+// //         {message && <p style={styles.message}>{message}</p>}
+
+// //         <form onSubmit={handleSubmit}>
+// //           <div style={styles.formGroup}>
+// //             <label style={styles.label}>Activity Title</label>
+// //             <input
+// //               type="text"
+// //               value={title}
+// //               onChange={(e) => setTitle(e.target.value)}
+// //               style={styles.input}
+// //               placeholder="Enter activity title"
+// //             />
+// //           </div>
+
+// //           <div style={styles.formGroup}>
+// //             <label style={styles.label}>Description</label>
+// //             <textarea
+// //               rows="4"
+// //               value={description}
+// //               onChange={(e) => setDescription(e.target.value)}
+// //               style={styles.textarea}
+// //               placeholder="Enter activity description"
+// //             />
+// //           </div>
+
+// //           <div style={styles.formGroup}>
+// //             <label style={styles.label}>Upload Image</label>
+// //             <input
+// //               type="file"
+// //               accept="image/*"
+// //               onChange={(e) => setFile(e.target.files[0])}
+// //               style={styles.file}
+// //             />
+// //           </div>
+
+// //           <button type="submit" style={styles.button} disabled={loading}>
+// //             {loading ? "Uploading..." : "Create Activity"}
+// //           </button>
+// //         </form>
+// //       </div>
+// //     </div>
+// //   );
+// // };
+
+// // const styles = {
+// //   page: {
+// //     backgroundColor: "#f7f7f7",
+// //     minHeight: "100vh",
+// //     padding: "40px",
+// //   },
+// //   card: {
+// //     maxWidth: "600px",
+// //     margin: "0 auto",
+// //     backgroundColor: "#ffffff",
+// //     borderRadius: "10px",
+// //     padding: "30px",
+// //     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+// //   },
+// //   heading: {
+// //     color: "#8b5e3c",
+// //     marginBottom: "20px",
+// //     textAlign: "center",
+// //   },
+// //   message: {
+// //     textAlign: "center",
+// //     marginBottom: "15px",
+// //     color: "#8b5e3c",
+// //     fontWeight: "500",
+// //   },
+// //   formGroup: {
+// //     marginBottom: "15px",
+// //   },
+// //   label: {
+// //     display: "block",
+// //     marginBottom: "6px",
+// //     color: "#8b5e3c",
+// //     fontWeight: "500",
+// //   },
+// //   input: {
+// //     width: "100%",
+// //     padding: "10px",
+// //     borderRadius: "6px",
+// //     border: "1px solid #ccc",
+// //   },
+// //   textarea: {
+// //     width: "100%",
+// //     padding: "10px",
+// //     borderRadius: "6px",
+// //     border: "1px solid #ccc",
+// //   },
+// //   file: {
+// //     width: "100%",
+// //   },
+// //   button: {
+// //     width: "100%",
+// //     backgroundColor: "#b08968",
+// //     color: "#fff",
+// //     border: "none",
+// //     padding: "12px",
+// //     borderRadius: "6px",
+// //     fontSize: "16px",
+// //     cursor: "pointer",
+// //     marginTop: "10px",
+// //   },
+// // };
+
+// // export default AdminActivity;
+
+
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+
+// const API = "http://localhost:5000/api/activities";
+// const IMAGE_BASE_URL = "http://localhost:5000";
+
+// const AdminActivity = () => {
+//   const [activities, setActivities] = useState([]);
+//   const [title, setTitle] = useState("");
+//   const [description, setDescription] = useState("");
+//   const [file, setFile] = useState(null);
+//   const [editingId, setEditingId] = useState(null);
+//   const [loading, setLoading] = useState(false);
+//   const [message, setMessage] = useState("");
+
+//   // ================= FETCH ACTIVITIES =================
+//   const fetchActivities = async () => {
+//     try {
+//       const res = await axios.get(`${API}/all`);
+//       setActivities(res.data);
+//     } catch (error) {
+//       console.error("Failed to fetch activities", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchActivities();
+//   }, []);
+
+//   // ================= CREATE / UPDATE =================
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     if (!title || !description) {
+//       setMessage("❌ Title & Description required");
+//       return;
+//     }
+
+//     const formData = new FormData();
+//     formData.append("title", title);
+//     formData.append("description", description);
+//     if (file) formData.append("file", file);
+
+//     try {
+//       setLoading(true);
+
+//       if (editingId) {
+//         await axios.put(`${API}/update/${editingId}`, formData);
+//         setMessage("✅ Activity updated successfully");
+//       } else {
+//         await axios.post(`${API}/create`, formData);
+//         setMessage("✅ Activity created successfully");
+//       }
+
+//       resetForm();
+//       fetchActivities();
+//     } catch (error) {
+//       setMessage("❌ Operation failed");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // ================= EDIT =================
+//   const handleEdit = (activity) => {
+//     setEditingId(activity._id);
+//     setTitle(activity.title);
+//     setDescription(activity.description);
+//     setFile(null);
+
+//     // Scroll to top smoothly
+//     window.scrollTo({ top: 0, behavior: "smooth" });
+//   };
+
+//   // ================= DELETE =================
+//   const handleDelete = async (id) => {
+//     if (!window.confirm("Delete this activity?")) return;
+
+//     try {
+//       await axios.delete(`${API}/delete/${id}`);
+//       fetchActivities();
+//     } catch (error) {
+//       alert("Delete failed");
+//     }
+//   };
+
+//   const resetForm = () => {
+//     setEditingId(null);
+//     setTitle("");
+//     setDescription("");
+//     setFile(null);
+//   };
+
+//   return (
+//     <div style={styles.page}>
+//       {/* ================= FORM ================= */}
+//       <div style={styles.formCard}>
+//         <h2 style={styles.heading}>
+//           {editingId ? "Edit Activity" : "Create Activity"}
+//         </h2>
+
+//         {message && <p style={styles.message}>{message}</p>}
+
+//         <form onSubmit={handleSubmit}>
+//           <input
+//             type="text"
+//             placeholder="Activity Title"
+//             value={title}
+//             onChange={(e) => setTitle(e.target.value)}
+//             style={styles.input}
+//           />
+
+//           <textarea
+//             placeholder="Activity Description"
+//             value={description}
+//             onChange={(e) => setDescription(e.target.value)}
+//             style={styles.textarea}
+//           />
+
+//           <input
+//             type="file"
+//             accept="image/*"
+//             onChange={(e) => setFile(e.target.files[0])}
+//             style={styles.file}
+//           />
+
+//           <button type="submit" style={styles.primaryBtn} disabled={loading}>
+//             {loading
+//               ? "Saving..."
+//               : editingId
+//               ? "Update Activity"
+//               : "Create Activity"}
+//           </button>
+
+//           {editingId && (
+//             <button type="button" onClick={resetForm} style={styles.cancelBtn}>
+//               Cancel Edit
+//             </button>
+//           )}
+//         </form>
+//       </div>
+
+//       {/* ================= LIST ================= */}
+//       <div style={styles.grid}>
+//         {activities.map((a) => (
+//           <div key={a._id} style={styles.card}>
+//             {/* ✅ IMAGE DISPLAY FIX */}
+//             <img
+//               src={`${IMAGE_BASE_URL}/${a.image}`}
+//               alt={a.title}
+//               style={styles.image}
+//               onError={(e) => {
+//                 e.target.src =
+//                   "https://via.placeholder.com/300x180?text=No+Image";
+//               }}
+//             />
+
+//             <h4>{a.title}</h4>
+//             <p>{a.description}</p>
+
+//             <div style={styles.actions}>
+//               <button onClick={() => handleEdit(a)} style={styles.editBtn}>
+//                 ✏ Edit
+//               </button>
+//               <button
+//                 onClick={() => handleDelete(a._id)}
+//                 style={styles.deleteBtn}
+//               >
+//                 🗑 Delete
+//               </button>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default AdminActivity;
+
+// // ================= STYLES =================
+// const styles = {
+//   page: {
+//     padding: "30px",
+//     backgroundColor: "#f5f5f5",
+//     minHeight: "100vh",
+//   },
+//   formCard: {
+//     maxWidth: "600px",
+//     margin: "0 auto 30px",
+//     backgroundColor: "#ffffff",
+//     padding: "25px",
+//     borderRadius: "12px",
+//     boxShadow: "0 6px 16px rgba(0,0,0,0.1)",
+//   },
+//   heading: {
+//     textAlign: "center",
+//     marginBottom: "15px",
+//     color: "#8b5e3c",
+//   },
+//   message: {
+//     textAlign: "center",
+//     marginBottom: "10px",
+//     color: "#8b5e3c",
+//   },
+//   input: {
+//     width: "100%",
+//     padding: "10px",
+//     marginBottom: "10px",
+//     borderRadius: "6px",
+//     border: "1px solid #ccc",
+//   },
+//   textarea: {
+//     width: "100%",
+//     padding: "10px",
+//     marginBottom: "10px",
+//     borderRadius: "6px",
+//     border: "1px solid #ccc",
+//     resize: "none",
+//   },
+//   file: {
+//     marginBottom: "10px",
+//   },
+//   primaryBtn: {
+//     width: "100%",
+//     padding: "12px",
+//     backgroundColor: "#8b5e3c",
+//     color: "#fff",
+//     border: "none",
+//     borderRadius: "6px",
+//     fontSize: "16px",
+//     cursor: "pointer",
+//   },
+//   cancelBtn: {
+//     width: "100%",
+//     padding: "10px",
+//     marginTop: "8px",
+//     backgroundColor: "#999",
+//     color: "#fff",
+//     border: "none",
+//     borderRadius: "6px",
+//     cursor: "pointer",
+//   },
+//   grid: {
+//     display: "grid",
+//     gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+//     gap: "20px",
+//   },
+//   card: {
+//     backgroundColor: "#fff",
+//     padding: "15px",
+//     borderRadius: "12px",
+//     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+//   },
+//   image: {
+//     width: "100%",
+//     height: "180px",
+//     objectFit: "cover",
+//     borderRadius: "8px",
+//   },
+//   actions: {
+//     display: "flex",
+//     justifyContent: "space-between",
+//     marginTop: "10px",
+//   },
+//   editBtn: {
+//     backgroundColor: "#b08968",
+//     color: "#fff",
+//     border: "none",
+//     padding: "6px 10px",
+//     borderRadius: "5px",
+//     cursor: "pointer",
+//   },
+//   deleteBtn: {
+//     backgroundColor: "#c0392b",
+//     color: "#fff",
+//     border: "none",
+//     padding: "6px 10px",
+//     borderRadius: "5px",
+//     cursor: "pointer",
+//   },
+// };
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+
+// const API = "http://localhost:5000/api/activities";
+// const IMAGE_BASE_URL = "http://localhost:5000";
+
+// const AdminActivity = () => {
+//   const [activities, setActivities] = useState([]);
+//   const [title, setTitle] = useState("");
+//   const [description, setDescription] = useState("");
+//   const [file, setFile] = useState(null);
+//   const [editingId, setEditingId] = useState(null);
+//   const [loading, setLoading] = useState(false);
+//   const [message, setMessage] = useState("");
+
+//   // ================= FETCH ACTIVITIES =================
+//   const fetchActivities = async () => {
+//     try {
+//       const res = await axios.get(`${API}/all`);
+//       setActivities(res.data);
+//     } catch (error) {
+//       console.error("Failed to fetch activities", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchActivities();
+//   }, []);
+
+//   // ================= CREATE / UPDATE =================
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     if (!title || !description) {
+//       setMessage("❌ Title & Description are required");
+//       return;
+//     }
+
+//     const formData = new FormData();
+//     formData.append("title", title);
+//     formData.append("description", description);
+//     if (file) formData.append("file", file);
+
+//     try {
+//       setLoading(true);
+
+//       if (editingId) {
+//         await axios.put(`${API}/update/${editingId}`, formData);
+//         setMessage("✅ Activity updated successfully");
+//       } else {
+//         await axios.post(`${API}/create`, formData);
+//         setMessage("✅ Activity created successfully");
+//       }
+
+//       resetForm();
+//       fetchActivities();
+//     } catch (error) {
+//       setMessage("❌ Operation failed");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // ================= EDIT =================
+//   const handleEdit = (activity) => {
+//     setEditingId(activity._id);
+//     setTitle(activity.title);
+//     setDescription(activity.description);
+//     setFile(null);
+
+//     window.scrollTo({ top: 0, behavior: "smooth" });
+//   };
+
+//   // ================= DELETE =================
+//   const handleDelete = async (id) => {
+//     if (!window.confirm("Delete this activity?")) return;
+
+//     try {
+//       await axios.delete(`${API}/delete/${id}`);
+//       fetchActivities();
+//     } catch (error) {
+//       alert("Delete failed");
+//     }
+//   };
+
+//   const resetForm = () => {
+//     setEditingId(null);
+//     setTitle("");
+//     setDescription("");
+//     setFile(null);
+//   };
+
+//   return (
+//     <div style={styles.page}>
+//       {/* ================= FORM ================= */}
+//       <div style={styles.formCard}>
+//         <h2 style={styles.heading}>
+//           {editingId ? "Edit Activity" : "Create Activity"}
+//         </h2>
+
+//         {message && <p style={styles.message}>{message}</p>}
+
+//         <form onSubmit={handleSubmit}>
+//           <input
+//             type="text"
+//             placeholder="Activity Title"
+//             value={title}
+//             onChange={(e) => setTitle(e.target.value)}
+//             style={styles.input}
+//           />
+
+//           <textarea
+//             placeholder="Activity Description"
+//             value={description}
+//             onChange={(e) => setDescription(e.target.value)}
+//             style={styles.textarea}
+//           />
+
+//           <input
+//             type="file"
+//             accept="image/*"
+//             onChange={(e) => setFile(e.target.files[0])}
+//             style={styles.file}
+//           />
+
+//           <button type="submit" style={styles.primaryBtn} disabled={loading}>
+//             {loading
+//               ? "Saving..."
+//               : editingId
+//               ? "Update Activity"
+//               : "Create Activity"}
+//           </button>
+
+//           {editingId && (
+//             <button type="button" onClick={resetForm} style={styles.cancelBtn}>
+//               Cancel Edit
+//             </button>
+//           )}
+//         </form>
+//       </div>
+
+//       {/* ================= ACTIVITY LIST ================= */}
+//       <div style={styles.grid}>
+//         {activities.map((a) => (
+//           <div key={a._id} style={styles.card}>
+//             {/* ✅ CORRECT IMAGE FETCHING LOGIC */}
+//             <img
+//               src={
+//                 a.image
+//                   ? `${IMAGE_BASE_URL}/${a.image}`
+//                   : "https://via.placeholder.com/300x180?text=No+Image"
+//               }
+//               alt={a.title}
+//               style={styles.image}
+//               onError={(e) => {
+//                 e.target.onerror = null;
+//                 e.target.src =
+//                   "https://via.placeholder.com/300x180?text=Image+Not+Found";
+//               }}
+//             />
+
+//             <h4>{a.title}</h4>
+//             <p>{a.description}</p>
+
+//             <div style={styles.actions}>
+//               <button onClick={() => handleEdit(a)} style={styles.editBtn}>
+//                 ✏ Edit
+//               </button>
+//               <button
+//                 onClick={() => handleDelete(a._id)}
+//                 style={styles.deleteBtn}
+//               >
+//                 🗑 Delete
+//               </button>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default AdminActivity;
+
+// // ================= STYLES =================
+// const styles = {
+//   page: {
+//     padding: "30px",
+//     backgroundColor: "#f5f5f5",
+//     minHeight: "100vh",
+//   },
+//   formCard: {
+//     maxWidth: "600px",
+//     margin: "0 auto 30px",
+//     backgroundColor: "#ffffff",
+//     padding: "25px",
+//     borderRadius: "12px",
+//     boxShadow: "0 6px 16px rgba(0,0,0,0.1)",
+//   },
+//   heading: {
+//     textAlign: "center",
+//     marginBottom: "15px",
+//     color: "#8b5e3c",
+//   },
+//   message: {
+//     textAlign: "center",
+//     marginBottom: "10px",
+//     color: "#8b5e3c",
+//   },
+//   input: {
+//     width: "100%",
+//     padding: "10px",
+//     marginBottom: "10px",
+//     borderRadius: "6px",
+//     border: "1px solid #ccc",
+//   },
+//   textarea: {
+//     width: "100%",
+//     padding: "10px",
+//     marginBottom: "10px",
+//     borderRadius: "6px",
+//     border: "1px solid #ccc",
+//     resize: "none",
+//   },
+//   file: {
+//     marginBottom: "10px",
+//   },
+//   primaryBtn: {
+//     width: "100%",
+//     padding: "12px",
+//     backgroundColor: "#8b5e3c",
+//     color: "#fff",
+//     border: "none",
+//     borderRadius: "6px",
+//     fontSize: "16px",
+//     cursor: "pointer",
+//   },
+//   cancelBtn: {
+//     width: "100%",
+//     padding: "10px",
+//     marginTop: "8px",
+//     backgroundColor: "#999",
+//     color: "#fff",
+//     border: "none",
+//     borderRadius: "6px",
+//     cursor: "pointer",
+//   },
+//   grid: {
+//     display: "grid",
+//     gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+//     gap: "20px",
+//   },
+//   card: {
+//     backgroundColor: "#fff",
+//     padding: "15px",
+//     borderRadius: "12px",
+//     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+//   },
+//   image: {
+//     width: "100%",
+//     height: "180px",
+//     objectFit: "cover",
+//     borderRadius: "8px",
+//   },
+//   actions: {
+//     display: "flex",
+//     justifyContent: "space-between",
+//     marginTop: "10px",
+//   },
+//   editBtn: {
+//     backgroundColor: "#b08968",
+//     color: "#fff",
+//     border: "none",
+//     padding: "6px 10px",
+//     borderRadius: "5px",
+//     cursor: "pointer",
+//   },
+//   deleteBtn: {
+//     backgroundColor: "#c0392b",
+//     color: "#fff",
+//     border: "none",
+//     padding: "6px 10px",
+//     borderRadius: "5px",
+//     cursor: "pointer",
+//   },
+// };
+
+
+
+
+
+
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+
+// const defaultNewActivity = {
+//   title: "",
+//   description: "",
+//   file: null,
+// };
+
+// const API_BASE_URL = "https://backend-waghera.onrender.com/api/activities";
+
+// const AdminActivity = () => {
+//   const [activities, setActivities] = useState([]);
+//   const [newActivity, setNewActivity] = useState(defaultNewActivity);
+//   const [editingId, setEditingId] = useState(null);
+//   const [loading, setLoading] = useState(false);
+//   const [statusMessage, setStatusMessage] = useState({ type: "", message: "" });
+
+//   // --- Status helper ---
+//   const setTimedStatus = (type, message) => {
+//     setStatusMessage({ type, message });
+//     setTimeout(() => setStatusMessage({ type: "", message: "" }), 5000);
+//   };
+
+//   // --- FETCH ACTIVITIES ---
+//   const fetchActivities = async () => {
+//     setLoading(true);
+//     try {
+//       const res = await axios.get(API_BASE_URL + "/all");
+//       setActivities(res.data);
+//     } catch (err) {
+//       console.error("Error fetching activities:", err);
+//       setTimedStatus("error", "Failed to fetch activities.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchActivities();
+//   }, []);
+
+//   // --- HANDLE FORM CHANGE ---
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setNewActivity((prev) => ({ ...prev, [name]: value }));
+//   };
+
+//   const handleFileChange = (e) => {
+//     setNewActivity((prev) => ({ ...prev, file: e.target.files[0] }));
+//   };
+
+//   // --- SUBMIT CREATE / UPDATE ---
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     if (!newActivity.title || !newActivity.description) {
+//       setTimedStatus("error", "Title & Description are required.");
+//       return;
+//     }
+
+//     const formData = new FormData();
+//     formData.append("title", newActivity.title);
+//     formData.append("description", newActivity.description);
+//     if (newActivity.file) formData.append("file", newActivity.file);
+
+//     try {
+//       setLoading(true);
+//       if (editingId) {
+//         await axios.put(`${API_BASE_URL}/update/${editingId}`, formData);
+//         setTimedStatus("success", "Activity updated successfully!");
+//       } else {
+//         await axios.post(`${API_BASE_URL}/create`, formData);
+//         setTimedStatus("success", "Activity created successfully!");
+//       }
+
+//       resetForm();
+//       fetchActivities();
+//     } catch (err) {
+//       console.error("Error saving activity:", err);
+//       setTimedStatus("error", "Operation failed.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // --- EDIT ACTIVITY ---
+//   const handleEdit = (activity) => {
+//     setEditingId(activity._id);
+//     setNewActivity({
+//       title: activity.title,
+//       description: activity.description,
+//       file: null,
+//     });
+//     window.scrollTo({ top: 0, behavior: "smooth" });
+//   };
+
+//   // --- DELETE ACTIVITY ---
+//   const handleDelete = async (id, title) => {
+//     if (!window.confirm(`Delete activity "${title}"?`)) return;
+//     try {
+//       await axios.delete(`${API_BASE_URL}/delete/${id}`);
+//       setTimedStatus("success", `Activity "${title}" deleted successfully.`);
+//       fetchActivities();
+//     } catch (err) {
+//       console.error("Delete failed:", err);
+//       setTimedStatus("error", "Delete operation failed.");
+//     }
+//   };
+
+//   const resetForm = () => {
+//     setEditingId(null);
+//     setNewActivity(defaultNewActivity);
+//   };
+
+//   return (
+//     <div className="p-6 bg-gray-50 min-h-screen">
+//       <h2 className="text-3xl font-bold mb-6 text-gray-800">Activity Management ⚡</h2>
+
+//       {/* --- STATUS MESSAGE --- */}
+//       {statusMessage.message && (
+//         <div
+//           className={`px-4 py-3 rounded mb-4 ${
+//             statusMessage.type === "success"
+//               ? "bg-green-100 border border-green-400 text-green-700"
+//               : "bg-red-100 border border-red-400 text-red-700"
+//           }`}
+//           role="alert"
+//         >
+//           {statusMessage.message}
+//         </div>
+//       )}
+
+//       {/* --- FORM --- */}
+//       <div className="bg-white p-6 shadow-xl rounded-lg mb-8 max-w-lg mx-auto">
+//         <h3 className="text-xl font-semibold mb-4 text-gray-700">
+//           {editingId ? "Edit Activity" : "Create Activity"}
+//         </h3>
+
+//         <form onSubmit={handleSubmit} className="space-y-4">
+//           <input
+//             type="text"
+//             name="title"
+//             placeholder="Title"
+//             value={newActivity.title}
+//             onChange={handleChange}
+//             className="w-full border p-2 rounded"
+//           />
+//           <textarea
+//             name="description"
+//             placeholder="Description"
+//             value={newActivity.description}
+//             onChange={handleChange}
+//             className="w-full border p-2 rounded"
+//             rows={3}
+//           />
+//           <input
+//             type="file"
+//             name="file"
+//             onChange={handleFileChange}
+//             accept="image/*"
+//             className="w-full"
+//           />
+//           <button
+//             type="submit"
+//             disabled={loading}
+//             className={`w-full py-2 rounded text-white ${
+//               loading ? "bg-gray-400" : "bg-[#a8815e] hover:bg-amber-700"
+//             }`}
+//           >
+//             {loading ? "Saving..." : editingId ? "Update Activity" : "Create Activity"}
+//           </button>
+//           {editingId && (
+//             <button
+//               type="button"
+//               onClick={resetForm}
+//               className="w-full py-2 mt-2 bg-gray-500 text-white rounded"
+//             >
+//               Cancel Edit
+//             </button>
+//           )}
+//         </form>
+//       </div>
+
+//       {/* --- ACTIVITY LIST --- */}
+//       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+//         {activities.map((a) => (
+//           <div key={a._id} className="bg-white rounded-lg shadow relative group overflow-hidden">
+//             <img
+//               src={
+//                 a.image
+//                   ? `https://backend-waghera.onrender.com/${a.image}`
+//                   : "https://via.placeholder.com/300x180?text=No+Image"
+//               }
+//               alt={a.title}
+//               className="w-full h-48 object-cover"
+//               onError={(e) => {
+//                 e.target.onerror = null;
+//                 e.target.src = "https://via.placeholder.com/300x180?text=Image+Not+Found";
+//               }}
+//             />
+//             <div className="p-4">
+//               <p className="font-medium text-gray-900 truncate">{a.title}</p>
+//               <p className="text-sm text-gray-600 line-clamp-2">{a.description}</p>
+//             </div>
+//             <div className="absolute top-2 right-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+//               <button
+//                 onClick={() => handleEdit(a)}
+//                 className="bg-yellow-500 text-white p-1 rounded"
+//               >
+//                 ✏
+//               </button>
+//               <button
+//                 onClick={() => handleDelete(a._id, a.title)}
+//                 className="bg-red-600 text-white p-1 rounded"
+//               >
+//                 🗑
+//               </button>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default AdminActivity;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+const defaultNewActivity = {
+  title: "",
+  description: "",
+  file: null,
+};
+
+const API_BASE_URL = "https://backend-waghera.onrender.com/api/activities";
 
 const AdminActivity = () => {
-    // State for storing the list of activities
-    const [activities, setActivities] = useState([]);
-    
-    // State for the new activity form data
-    const [newActivity, setNewActivity] = useState({
-        title: '',
-        description: '',
-        file: null,
+  const [activities, setActivities] = useState([]);
+  const [newActivity, setNewActivity] = useState(defaultNewActivity);
+  const [editingId, setEditingId] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState({ type: "", message: "" });
+
+  const setTimedStatus = (type, message) => {
+    setStatusMessage({ type, message });
+    setTimeout(() => setStatusMessage({ type: "", message: "" }), 5000);
+  };
+
+  // Fetch Activities
+  const fetchActivities = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(API_BASE_URL + "/all");
+      setActivities(res.data);
+    } catch (err) {
+      console.error("Error fetching activities:", err);
+      setTimedStatus("error", "Failed to fetch activities.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchActivities();
+  }, []);
+
+  // Form Handlers
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewActivity((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (e) => {
+    setNewActivity((prev) => ({ ...prev, file: e.target.files[0] }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!newActivity.title || !newActivity.description) {
+      setTimedStatus("error", "Title & Description are required.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", newActivity.title);
+    formData.append("description", newActivity.description);
+    if (newActivity.file) formData.append("file", newActivity.file);
+
+    try {
+      setLoading(true);
+      if (editingId) {
+        await axios.put(`${API_BASE_URL}/update/${editingId}`, formData);
+        setTimedStatus("success", "Activity updated successfully!");
+      } else {
+        await axios.post(`${API_BASE_URL}/create`, formData);
+        setTimedStatus("success", "Activity created successfully!");
+      }
+      resetForm();
+      fetchActivities();
+    } catch (err) {
+      console.error("Error saving activity:", err);
+      setTimedStatus("error", "Operation failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEdit = (activity) => {
+    setEditingId(activity._id);
+    setNewActivity({
+      title: activity.title,
+      description: activity.description,
+      file: null,
     });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-    // State for loading and error messages
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [uploading, setUploading] = useState(false);
-    const [uploadSuccess, setUploadSuccess] = useState(false);
+  const handleDelete = async (id, title) => {
+    if (!window.confirm(`Delete activity "${title}"?`)) return;
+    try {
+      await axios.delete(`${API_BASE_URL}/delete/${id}`);
+      setTimedStatus("success", `Activity "${title}" deleted successfully.`);
+      fetchActivities();
+    } catch (err) {
+      console.error("Delete failed:", err);
+      setTimedStatus("error", "Delete operation failed.");
+    }
+  };
 
-    // --- ADDED: State for Edit functionality ---
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [currentActivity, setCurrentActivity] = useState(null);
-    const [statusMessage, setStatusMessage] = useState({ type: '', message: '' }); // Consolidated status
+  const resetForm = () => {
+    setEditingId(null);
+    setNewActivity(defaultNewActivity);
+  };
 
-    // --- API Configuration ---
-    const API_BASE_URL = 'https://backend-waghera.onrender.com/api/activities'; // Adjust port if necessary
-    
-    // Helper to display status messages temporarily
-    const setTimedStatus = (type, message) => {
-        setStatusMessage({ type, message });
-        setTimeout(() => setStatusMessage({ type: '', message: '' }), 5000);
-    };
+  return (
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <h2 className="text-3xl font-bold mb-6 text-gray-800">Activity Management ⚡</h2>
 
-    // Function to fetch all activities
-    const fetchActivities = async () => {
-        setLoading(true);
-        try {
-            const response = await axios.get(`${API_BASE_URL}/all`);
-            setActivities(response.data);
-            setError(null);
-        } catch (err) {
-            console.error("Error fetching activities:", err);
-            setError('Failed to fetch activities.');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // Fetch activities on component mount
-    useEffect(() => {
-        fetchActivities();
-    }, []);
-
-    // Handle input changes for the form
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setNewActivity(prev => ({ ...prev, [name]: value }));
-    };
-
-    // Handle file selection
-    const handleFileChange = (e) => {
-        setNewActivity(prev => ({ ...prev, file: e.target.files[0] }));
-    };
-
-    // Handle form submission for uploading a new activity
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setUploading(true);
-        setUploadSuccess(false);
-        setError(null);
-        setStatusMessage({ type: '', message: '' });
-
-        if (!newActivity.title || !newActivity.description || !newActivity.file) {
-            setError('All fields and a file are required.');
-            setUploading(false);
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('title', newActivity.title);
-        formData.append('description', newActivity.description);
-        formData.append('file', newActivity.file);
-        
-        // ADDED: Include token for POST request if needed
-        const token = localStorage.getItem('jwtToken');
-        const headers = { 'Content-Type': 'multipart/form-data' };
-        if (token) {
-            headers['Authorization'] = `Bearer ${token}`;
-        }
-
-
-        try {
-            const response = await axios.post(`${API_BASE_URL}/upload`, formData, { headers });
-
-            // Add the new activity to the list
-            setActivities(prev => [...prev, response.data]);
-
-            // Reset the form
-            setNewActivity({ title: '', description: '', file: null });
-            
-            // Show success message
-            setUploadSuccess(true);
-            setTimeout(() => setUploadSuccess(false), 3000); 
-
-        } catch (err) {
-            console.error("Error uploading activity:", err);
-            setError('Failed to upload activity. Check server console.');
-        } finally {
-            setUploading(false);
-        }
-    };
-
-    // ===================================================
-    // 🛑 ADDED: DELETE LOGIC
-    // ===================================================
-    const handleDelete = async (id, title) => {
-        if (!window.confirm(`Are you sure you want to delete the activity: "${title}"?`)) {
-            return;
-        }
-
-        try {
-            const token = localStorage.getItem('jwtToken'); 
-            const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
-
-            // NOTE: Assuming the delete endpoint is at /api/activities/{id}
-            await axios.delete(`${API_BASE_URL}/${id}`, { headers });
-            
-            // Remove the activity from the state
-            setActivities(prev => prev.filter(activity => activity.id !== id));
-            setTimedStatus('success', `Activity '${title}' deleted successfully.`);
-
-        } catch (err) {
-            console.error(`❌ DELETE Request Failed for ID: ${id}. Error:`, err);
-            setTimedStatus('error', 'Failed to delete activity. Check console and backend CORS/Security.');
-        }
-    };
-
-    // ===================================================
-    // 📝 ADDED: EDIT LOGIC
-    // ===================================================
-
-    // Function to open the modal and set the activity to be edited
-    const openEditModal = (activity) => {
-        setCurrentActivity(activity);
-        setIsEditModalOpen(true);
-    };
-
-    // Function to handle the form input changes within the modal
-    const handleEditChange = (e) => {
-        const { name, value } = e.target;
-        setCurrentActivity(prev => ({ ...prev, [name]: value }));
-    };
-
-    // Function to submit the edit changes (PUT request)
-    const handleEditSubmit = async (e) => {
-        e.preventDefault();
-        
-        try {
-            const token = localStorage.getItem('jwtToken'); 
-            const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
-            
-            // PUT request to update the resource. NOTE: Assuming the update endpoint is at /api/activities/{id}
-            const response = await axios.put(
-                `${API_BASE_URL}/${currentActivity.id}`, 
-                currentActivity, // Sends the updated title/description
-                { headers }
-            );
-
-            // Update the activity list in the state using the response data
-            setActivities(prev => 
-                prev.map(activity => activity.id === response.data.id ? response.data : activity)
-            );
-
-            setTimedStatus('success', `Activity '${response.data.title}' updated successfully!`);
-            setIsEditModalOpen(false);
-            setCurrentActivity(null);
-
-        } catch (err) {
-            console.error("Error updating activity:", err);
-            setTimedStatus('error', 'Failed to update activity. Check backend endpoint (PUT method).');
-        }
-    };
-
-    return (
-        <div className="p-6 bg-gray-50 min-h-screen">
-            <h2 className="text-3xl font-bold mb-6 text-gray-800">Admin Activity Management 📝</h2>
-
-            {/* --- Status Messages (Consolidated) --- */}
-            {error && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    {error}
-                </div>
-            )}
-            {uploadSuccess && (
-                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-                    Activity uploaded successfully!
-                </div>
-            )}
-            {/* ADDED: General success/error status for delete/edit */}
-            {statusMessage.message && statusMessage.type !== 'success' && statusMessage.type !== 'error' && (
-                <div className={`px-4 py-3 rounded relative mb-4 ${
-                    statusMessage.type === 'success' ? 'bg-green-100 border border-green-400 text-green-700' : 'bg-red-100 border border-red-400 text-red-700'
-                }`} role="alert">
-                    {statusMessage.message}
-                </div>
-            )}
-
-
-            {/* --- 1. Add New Activity Form --- */}
-            <div className="bg-white p-6 shadow-xl rounded-lg mb-8">
-                <h3 className="text-xl font-semibold mb-4 text-gray-700">Add New Activity</h3>
-                
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    {/* ... (Existing form inputs for title, description, file) ... */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Title</label>
-                        <input
-                            type="text"
-                            name="title"
-                            value={newActivity.title}
-                            onChange={handleChange}
-                            required
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Description</label>
-                        <textarea
-                            name="description"
-                            value={newActivity.description}
-                            onChange={handleChange}
-                            rows="3"
-                            required
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                        ></textarea>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Image File</label>
-                        <input
-                            type="file"
-                            name="file"
-                            onChange={handleFileChange}
-                            required
-                            className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brown-50 file:text-[#a8815e] hover:file:bg-brown-100"
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        disabled={uploading}
-                        className={`w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-                            uploading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#a8815e] hover:bg-amber-700'
-                        }`}
-                    >
-                        {uploading ? 'Uploading...' : 'Upload Activity'}
-                    </button>
-                </form>
-            </div>
-
-            {/* --- 2. Activity List Overview --- */}
-            <div className="bg-white p-6 shadow-xl rounded-lg">
-                <h3 className="text-xl font-semibold mb-4 text-gray-700">Existing Activities</h3>
-                
-                {loading && <p>Loading activities...</p>}
-                
-                {!loading && activities.length === 0 && <p className="text-gray-500">No activities found.</p>}
-
-                <div className="space-y-4">
-                    {activities.map((activity) => (
-                        <div key={activity.id} className="flex items-start p-4 border rounded-md hover:bg-gray-50 transition duration-150 relative group">
-                            <img 
-                                src={activity.imageUrl} 
-                                alt={activity.title} 
-                                className="w-20 h-20 object-cover rounded-md mr-4 flex-shrink-0" 
-                            />
-                            <div className="flex-grow">
-                                <p className="text-lg font-medium text-gray-900">{activity.title}</p>
-                                <p className="text-sm text-gray-600 line-clamp-2">{activity.description}</p>
-                                <p className="text-xs text-gray-400 mt-1">ID: {activity.id}</p>
-                            </div>
-                            
-                            {/* --- ADDED: Edit/Delete buttons --- */}
-                            <div className="flex space-x-2 opacity-0 group-hover:opacity-100 transition duration-300 ml-4 flex-shrink-0">
-                                {/* Edit Button */}
-                                <button
-                                    onClick={() => openEditModal(activity)}
-                                    className="p-2 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition duration-150"
-                                    title="Edit Activity"
-                                >
-                                    <Pencil className="w-4 h-4" />
-                                </button>
-                                {/* Delete Button */}
-                                <button
-                                    onClick={() => handleDelete(activity.id, activity.title)}
-                                    className="p-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition duration-150"
-                                    title="Delete Activity"
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                </button>
-                            </div>
-                            {/* ------------------------------- */}
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* --- ADDED: Edit Modal Display --- */}
-            {isEditModalOpen && currentActivity && (
-                <EditModal 
-                    activity={currentActivity}
-                    onClose={() => setIsEditModalOpen(false)}
-                    onChange={handleEditChange}
-                    onSubmit={handleEditSubmit}
-                />
-            )}
+      {/* Status */}
+      {statusMessage.message && (
+        <div
+          className={`px-4 py-3 rounded mb-4 ${
+            statusMessage.type === "success"
+              ? "bg-green-100 border border-green-400 text-green-700"
+              : "bg-red-100 border border-red-400 text-red-700"
+          }`}
+        >
+          {statusMessage.message}
         </div>
-    );
+      )}
+
+      {/* Form */}
+      <div className="bg-white p-6 shadow-xl rounded-lg mb-8 max-w-lg mx-auto">
+        <h3 className="text-xl font-semibold mb-4 text-gray-700">
+          {editingId ? "Edit Activity" : "Create Activity"}
+        </h3>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            name="title"
+            placeholder="Title"
+            value={newActivity.title}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          />
+          <textarea
+            name="description"
+            placeholder="Description"
+            value={newActivity.description}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            rows={3}
+          />
+          <input
+            type="file"
+            name="file"
+            onChange={handleFileChange}
+            accept="image/*"
+            className="w-full"
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-2 rounded text-white ${
+              loading ? "bg-gray-400" : "bg-[#a8815e] hover:bg-amber-700"
+            }`}
+          >
+            {loading ? "Saving..." : editingId ? "Update Activity" : "Create Activity"}
+          </button>
+          {editingId && (
+            <button
+              type="button"
+              onClick={resetForm}
+              className="w-full py-2 mt-2 bg-gray-500 text-white rounded"
+            >
+              Cancel Edit
+            </button>
+          )}
+        </form>
+      </div>
+
+      {/* Activities List */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {activities.map((a) => (
+          <div key={a._id} className="bg-white rounded-lg shadow relative group overflow-hidden">
+            {/* ✅ Use imageUrl instead of image */}
+            <img
+              src={a.imageUrl || "https://via.placeholder.com/300x180?text=No+Image"}
+              alt={a.title}
+              className="w-full h-48 object-cover"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "https://via.placeholder.com/300x180?text=Image+Not+Found";
+              }}
+            />
+            <div className="p-4">
+              <p className="font-medium text-gray-900 truncate">{a.title}</p>
+              <p className="text-sm text-gray-600 line-clamp-2">{a.description}</p>
+            </div>
+            <div className="absolute top-2 right-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button
+                onClick={() => handleEdit(a)}
+                className="bg-yellow-500 text-white p-1 rounded"
+              >
+                ✏
+              </button>
+              <button
+                onClick={() => handleDelete(a._id, a.title)}
+                className="bg-red-600 text-white p-1 rounded"
+              >
+                🗑
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default AdminActivity;
