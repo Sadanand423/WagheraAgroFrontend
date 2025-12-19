@@ -5,6 +5,9 @@ import axios from "axios";
 import ClientSay from "../Components/ClientSay/ClientSay";
 import image from "../assets/images/about-us-small-image.jpeg"
 import image2 from "../assets/images/imgae-small.jpeg"
+import { FaPaw } from "react-icons/fa";
+import { GiRiver } from "react-icons/gi";
+
 export default function AboutUs() {
   const [team, setTeam] = useState([]);
 
@@ -70,9 +73,8 @@ export default function AboutUs() {
 Located in the breathtaking hills of Mahabaleshwar, Waghera Agro Tourism is a peaceful retreat surrounded by lush greenery, fresh mountain air, and scenic views. Designed for travelers seeking relaxation and authenticity, our agro tourism stay offers a refreshing break from the fast-paced city lifestyle.
 At Waghera Agro Tourism, guests can experience the charm of farm life, enjoy locally grown fresh food, and immerse themselves in the calm beauty of nature — all while enjoying clean, comfortable, and well-maintained accommodations. Whether you’re waking up to birdsong, enjoying a walk through green fields, or spending quality time with family by a cozy evening bonfire, every moment here is crafted to create lasting memories.
 
-We believe in warm hospitality and personalized service. From couples and families to group travelers and nature lovers, Waghera Agro Tourism welcomes everyone with a promise of comfort, simplicity, and genuine rural experiences. Our location offers the perfect balance of serenity and accessibility, making it an ideal base to explore nearby attractions of Mahabaleshwar while still enjoying peaceful surroundings.
 
-Come, relax, and reconnect with nature at Waghera Agro Tourism — where every stay feels pure, peaceful, and unforgettable.
+
             </p>
             <img
               src="https://html.themewant.com/moonlit/assets/images/index-4/about/sign.webp"
@@ -123,30 +125,32 @@ Come, relax, and reconnect with nature at Waghera Agro Tourism — where every s
               </div>
 
               {/* 3 */}
-              <div>
-                <div className=" items-start gap-3 mb-6 mt-10">
-                  <span className="text-[#b88d56] text-4xl ">
-                    <img src="https://html.themewant.com/moonlit/assets/images/icon/gym.svg" />
-                  </span>
-                  <h4 className="font-medium text-3xl mt-10">Fitness Center</h4>
-                </div>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  Well-equipped gym & spa treatments.
-                </p>
-              </div>
+           {/* 3 - Pet Friendly */}
+<div>
+  <div className="items-start gap-3 mb-6 mt-10">
+    <span className="text-[#b88d56] text-4xl block">
+      <FaPaw />
+    </span>
+    <h4 className="font-medium text-3xl mt-10">Pet Friendly</h4>
+  </div>
+  <p className="text-xl text-gray-600 leading-relaxed">
+    We warmly welcome pets with comfortable spaces, open areas.
+  </p>
+</div>
 
-              {/* 4 */}
-              <div>
-                <div className=" items-start gap-3 mb-6 mt-10">
-                  <span className="text-[#b88d56] text-7xl">
-                    <img src="https://html.themewant.com/moonlit/assets/images/icon/swimming-pool.svg" />
-                  </span>
-                  <h4 className="font-medium text-3xl mt-10">Swimming Pool</h4>
-                </div>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  Beautiful indoor & outdoor pools.
-                </p>
-              </div>
+{/* 4 - River Swimming */}
+<div>
+  <div className="items-start gap-3 mb-6 mt-10">
+    <span className="text-[#b88d56] text-4xl block">
+      <GiRiver />
+    </span>
+    <h4 className="font-medium text-3xl mt-10">River Swimming</h4>
+  </div>
+  <p className="text-xl text-gray-600 leading-relaxed">
+    Enjoy natural river swimming in a serene environment.
+  </p>
+</div>
+
 
             </div>
           </div>
