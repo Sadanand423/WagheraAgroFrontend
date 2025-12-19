@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ClientSay from "../Components/ClientSay/ClientSay";
-
+import image from "../assets/images/about-us-small-image.jpeg"
+import image2 from "../assets/images/imgae-small.jpeg"
 export default function AboutUs() {
   const [team, setTeam] = useState([]);
 
@@ -42,15 +43,15 @@ export default function AboutUs() {
           {/* Left Images */}
           <div className="relative flex justify-center items-center">
             <img
-              src="https://html.themewant.com/moonlit/assets/images/index-4/about/1.webp"
+              src={image}
               alt="Landscape"
               className="w-[90%] sm:w-[500px] md:w-[500px] h-[300px] sm:h-[400px] md:h-[500px] rounded-xl shadow-lg object-cover"
             />
 
             <img
-              src="https://html.themewant.com/moonlit/assets/images/index-4/about/2.webp"
+              src={image2}
               alt="Hiker"
-              className="absolute bottom-[-70px] left-1/2 sm:left-[60%] w-[250px] sm:w-[300px] md:w-[280px] border-4 border-white rounded-xl shadow-xl transform -translate-x-1/2 sm:translate-x-0"
+              className="absolute bottom-[-70px] left-1/2 sm:left-[30%] w-[250px] sm:w-[300px] md:w-[380px] border-4 border-white rounded-xl shadow-xl transform -translate-x-1/2 sm:translate-x-0"
             />
           </div>
 
@@ -60,13 +61,18 @@ export default function AboutUs() {
               ―⟡ About Us
             </h4>
             <h2 className="text-3xl sm:text-4xl md:text-5xl  text-gray-900 leading-tight mb-6">
-              Welcome To Our Waghera Agro Tourism Hotel & Resort
+              {/* Welcome To Our Waghera Agro Tourism Hotel & Resort */}
+               Welcome to Waghera Agro Tourism, Mahabaleshwar
             </h2>
             <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-10">
-              Welcome to Bokinn, where luxury meets comfort in the heart of
-              Canada. Since 1999, we have been dedicated to providing an
-              exceptional stay for our guests, blending modern amenities with
-              timeless elegance.
+             Where nature, tradition, and comfort come together in perfect harmony.
+
+Located in the breathtaking hills of Mahabaleshwar, Waghera Agro Tourism is a peaceful retreat surrounded by lush greenery, fresh mountain air, and scenic views. Designed for travelers seeking relaxation and authenticity, our agro tourism stay offers a refreshing break from the fast-paced city lifestyle.
+At Waghera Agro Tourism, guests can experience the charm of farm life, enjoy locally grown fresh food, and immerse themselves in the calm beauty of nature — all while enjoying clean, comfortable, and well-maintained accommodations. Whether you’re waking up to birdsong, enjoying a walk through green fields, or spending quality time with family by a cozy evening bonfire, every moment here is crafted to create lasting memories.
+
+We believe in warm hospitality and personalized service. From couples and families to group travelers and nature lovers, Waghera Agro Tourism welcomes everyone with a promise of comfort, simplicity, and genuine rural experiences. Our location offers the perfect balance of serenity and accessibility, making it an ideal base to explore nearby attractions of Mahabaleshwar while still enjoying peaceful surroundings.
+
+Come, relax, and reconnect with nature at Waghera Agro Tourism — where every stay feels pure, peaceful, and unforgettable.
             </p>
             <img
               src="https://html.themewant.com/moonlit/assets/images/index-4/about/sign.webp"

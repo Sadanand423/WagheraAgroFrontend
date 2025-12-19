@@ -2,7 +2,8 @@ import React from 'react';
 import { useEffect, useRef } from "react";
 import { ParallaxProvider, Parallax } from 'react-scroll-parallax';
 import { Link } from "react-router-dom";
-
+import smallimg from "../../assets/images/imgae-small.jpeg"
+import  colimage from "../../assets/images/colleg.jpeg"
 
 export default function Hotel() {
     const imageRef = useRef(null);
@@ -39,7 +40,7 @@ export default function Hotel() {
     <div className="relative w-full h-[600px] overflow-hidden rounded-xl shadow-lg mx-auto max-w-[500px]">
       <img
         ref={imageRef}
-        src="https://html.themewant.com/moonlit/assets/images/about/about-1.webp"
+        src={colimage}
         alt="Main Room"
         className="w-full h-[800px] object-cover transition-transform duration-200 ease-out will-change-transform"
       />
@@ -48,7 +49,8 @@ export default function Hotel() {
     {/* Top-right small image */}
     <div className="hidden sm:block absolute top-[-30px] right-[-10px] md:right-[-40px] w-64 sm:w-80 md:w-96 h-40 sm:h-52 md:h-64 rounded-xl overflow-hidden shadow-lg border-[6px] border-white">
       <img
-        src="https://html.themewant.com/moonlit/assets/images/about/about-main.webp"
+        // src="https://html.themewant.com/moonlit/assets/images/about/about-main.webp"
+        src={smallimg}
         alt="Secondary Room"
         className="w-full h-full object-cover"
       />

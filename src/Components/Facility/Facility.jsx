@@ -1,5 +1,9 @@
 import React from 'react';
 import { FaBed, FaUserShield, FaDumbbell, FaSwimmingPool } from 'react-icons/fa';
+import { FaPaw } from "react-icons/fa";
+import { GiRiver } from "react-icons/gi";
+
+
 
 const facilities = [
   {
@@ -14,18 +18,32 @@ const facilities = [
     description:
       "On-site security personnel and best surveillance. From standard to luxury suites. Secure storage for valuables.",
   },
+  // {
+  //   icon: <FaDumbbell className="text-4xl text-[#a8815e] mb-4 block mx-auto"/>,
+  //   title: "Fitness Center",
+  //   description:
+  //     "Equipped with exercise machines and weights. Offering massages, facials, and other treatments.",
+  // },
   {
-    icon: <FaDumbbell className="text-4xl text-[#a8815e] mb-4 block mx-auto"/>,
-    title: "Fitness Center",
-    description:
-      "Equipped with exercise machines and weights. Offering massages, facials, and other treatments.",
-  },
+  icon: <FaPaw className="text-4xl text-[#a8815e] mb-4 block mx-auto" />,
+  title: "Pet Friendly",
+  description:
+    "We warmly welcome pets with comfortable spaces, open areas, and special care to ensure a pleasant stay for you and your furry companions.",
+}
+,
+  // {
+  //   icon: <FaSwimmingPool className="text-4xl text-[#a8815e] mb-4 block mx-auto" />,
+  //   title: "Swimming Pool",
+  //   description:
+  //     "Indoor or outdoor pools for leisure or exercise. Offering massages, facials, and other treatments.",
+  // },
   {
-    icon: <FaSwimmingPool className="text-4xl text-[#a8815e] mb-4 block mx-auto" />,
-    title: "Swimming Pool",
-    description:
-      "Indoor or outdoor pools for leisure or exercise. Offering massages, facials, and other treatments.",
-  },
+  icon: <GiRiver className="text-4xl text-[#a8815e] mb-4 block mx-auto" />,
+  title: "River Swimming",
+  description:
+    "Enjoy natural river swimming in a serene environment, offering a refreshing and adventurous experience surrounded by nature.",
+}
+,
 ];
 
 export default function facility() {
