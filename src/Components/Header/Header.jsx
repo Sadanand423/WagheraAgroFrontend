@@ -354,9 +354,9 @@ export default function Header({ onSignInClick, onSignUpClick, bg }) {
         <div className="fixed inset-0 z-50 bg-black p-6 overflow-y-auto flex flex-col">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
-            <Link to="/" className="text-2xl font-serif font-bold text-white">
+            {/* <Link to="/" className="text-2xl font-serif font-bold text-white">
               Waghera Agro Tourism
-            </Link>
+            </Link> */}
             <button
               onClick={() => setMenuOpen(false)}
               aria-label="Close menu"
@@ -366,10 +366,10 @@ export default function Header({ onSignInClick, onSignUpClick, bg }) {
             </button>
           </div>
 
-          <p className="text-white leading-relaxed mb-10">
+          {/* <p className="text-white leading-relaxed mb-10">
             Welcome to Waghera Agro Tourism, where luxury meets comfort in the
             heart of Canada. Since 1999, we have been dedicated to providing.
-          </p>
+          </p> */}
 
           <nav className="flex flex-col gap-4 text-white text-lg border-t border-gray-700 pt-6">
             {/* Single navigations */}
