@@ -97,13 +97,20 @@ export default function Header({ onSignInClick, onSignUpClick, bg }) {
     }, 1000); // 1s loading simulation
   };
 
-  const handleBookNowClick = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false); // Optional — will unmount if navigating
-      navigate("/booknow");
-    }, 1000); // 1 second delay
-  };
+ const handleBookNowClick = () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    onSignInClick();        // open login popup instead of navigating
+    return;
+  }
+
+  setLoading(true);
+  setTimeout(() => {
+    setLoading(false);
+    navigate("/booknow");   // only when logged in
+  }, 1000);
+};
+
 
   // 🔐 Ensure dropdown is closed after page navigation (loader ends)
   useEffect(() => {
@@ -326,12 +333,19 @@ export default function Header({ onSignInClick, onSignUpClick, bg }) {
               <div className="w-12 h-12 border-4 border-[#af7b4f] border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : (
+            // <button
+            //   onClick={handleBookNowClick}
+            //   className="cursor-pointer bg-[#af7b4f] text-white px-4 py-2 rounded hover:bg-yellow-800 transition duration-300"
+            // >
+            //   Book Now
+            // </button>
             <button
-              onClick={handleBookNowClick}
-              className="cursor-pointer bg-[#af7b4f] text-white px-4 py-2 rounded hover:bg-yellow-800 transition duration-300"
-            >
-              Book Now
-            </button>
+  onClick={handleBookNowClick}
+  className="cursor-pointer bg-[#af7b4f] text-white px-4 py-2 rounded hover:bg-yellow-800 transition duration-300"
+>
+  Book Now
+</button>
+
           )}
         </div>
 
@@ -354,9 +368,9 @@ export default function Header({ onSignInClick, onSignUpClick, bg }) {
         <div className="fixed inset-0 z-50 bg-black p-6 overflow-y-auto flex flex-col">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
-            <Link to="/" className="text-2xl font-serif font-bold text-white">
+            {/* <Link to="/" className="text-2xl font-serif font-bold text-white">
               Waghera Agro Tourism
-            </Link>
+            </Link> */}
             <button
               onClick={() => setMenuOpen(false)}
               aria-label="Close menu"
@@ -366,10 +380,10 @@ export default function Header({ onSignInClick, onSignUpClick, bg }) {
             </button>
           </div>
 
-          <p className="text-white leading-relaxed mb-10">
+          {/* <p className="text-white leading-relaxed mb-10">
             Welcome to Waghera Agro Tourism, where luxury meets comfort in the
             heart of Canada. Since 1999, we have been dedicated to providing.
-          </p>
+          </p> */}
 
           <nav className="flex flex-col gap-4 text-white text-lg border-t border-gray-700 pt-6">
             {/* Single navigations */}
