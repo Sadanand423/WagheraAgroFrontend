@@ -97,13 +97,20 @@ export default function Header({ onSignInClick, onSignUpClick, bg }) {
     }, 1000); // 1s loading simulation
   };
 
-  const handleBookNowClick = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false); // Optional — will unmount if navigating
-      navigate("/booknow");
-    }, 1000); // 1 second delay
-  };
+ const handleBookNowClick = () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    onSignInClick();        // open login popup instead of navigating
+    return;
+  }
+
+  setLoading(true);
+  setTimeout(() => {
+    setLoading(false);
+    navigate("/booknow");   // only when logged in
+  }, 1000);
+};
+
 
   // 🔐 Ensure dropdown is closed after page navigation (loader ends)
   useEffect(() => {
@@ -326,12 +333,19 @@ export default function Header({ onSignInClick, onSignUpClick, bg }) {
               <div className="w-12 h-12 border-4 border-[#af7b4f] border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : (
+            // <button
+            //   onClick={handleBookNowClick}
+            //   className="cursor-pointer bg-[#af7b4f] text-white px-4 py-2 rounded hover:bg-yellow-800 transition duration-300"
+            // >
+            //   Book Now
+            // </button>
             <button
-              onClick={handleBookNowClick}
-              className="cursor-pointer bg-[#af7b4f] text-white px-4 py-2 rounded hover:bg-yellow-800 transition duration-300"
-            >
-              Book Now
-            </button>
+  onClick={handleBookNowClick}
+  className="cursor-pointer bg-[#af7b4f] text-white px-4 py-2 rounded hover:bg-yellow-800 transition duration-300"
+>
+  Book Now
+</button>
+
           )}
         </div>
 

@@ -888,6 +888,7 @@ import TradditionalCottage from './Components/roomdetails/TradditionalCottage';
 import FamilySuites from './Components/roomdetails/FamilyRoom';
 import LuxurySuites from './Components/roomdetails/LuxurySuites';
 import Blog from './Pages/Blog';
+import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
 
 // Admin Components
 import AdminLayout from './Pages/Admin/AdminLayout';
