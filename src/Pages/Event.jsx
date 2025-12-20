@@ -108,7 +108,7 @@ export default function Events() {
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
           {facilities.map((item, index) => (
-            <div key={index} className="text-center">
+            <div key={index} className="text-justify">
               <img src={item.icon} alt={item.title} className="mx-auto mb-6 w-12 h-12" />
               <h3 className="text-3xl  mb-4">{item.title}</h3>
               <p className="text-gray-600 text-lg">{item.desc}</p>

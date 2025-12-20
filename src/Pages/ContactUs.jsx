@@ -1,6 +1,3 @@
-
-
-
 import React, { useState } from "react";
 import { Mail, Phone, MapPin, Clock, Contact } from "lucide-react";
 import map from "../../src/assets/images/map.jpg";
@@ -179,14 +176,15 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ================= IMAGE MAP ================= */}
-      <section className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] mb-16 sm:mb-20">
-        <img
-          src={map}
-          alt="Company Location"
-          className="h-full w-auto mx-auto object-cover rounded-xl sm:rounded-2xl shadow-md"
-        />
-      </section>
+     {/* ================= IMAGE MAP ================= */}
+<section className="w-full mb-16 sm:mb-20 px-4">
+  <img
+    src={map}
+    alt="Company Location"
+    className="w-full h-auto max-w-6xl mx-auto rounded-xl sm:rounded-2xl shadow-md"
+  />
+</section>
+
 
       {/* ================= GOOGLE MAP ================= */}
       {/* <section className="max-w-6xl mx-auto px-6 mb-20">
