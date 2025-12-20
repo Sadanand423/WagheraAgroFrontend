@@ -8,7 +8,7 @@ import { GiRiver } from "react-icons/gi";
 const facilities = [
   {
     icon: <FaBed className="text-4xl text-[#a8815e] mb-4 block mx-auto" />,
-    title: "Rooms and Suites",
+    title: "Rooms and Tents",
     description:
       "Varied types of rooms, from standard to luxury suites, equipped with essentials like beds.",
   },

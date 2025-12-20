@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ClientSay from "../Components/ClientSay/ClientSay";
@@ -104,7 +102,7 @@ At Waghera Agro Tourism, guests can experience the charm of farm life, enjoy loc
                   <span className="text-[#b88d56] text-7xl">
                     <img src="https://html.themewant.com/moonlit/assets/images/icon/bed.svg" />
                   </span>
-                  <h4 className="font-medium text-3xl mt-7 mb-7">Rooms and Suites</h4>
+                  <h4 className="font-medium text-3xl mt-7 mb-7">Rooms and Tents</h4>
                 </div>
                 <p className="text-xl text-gray-600 leading-relaxed">
                   Varied types of rooms, from standard to luxury suites.
@@ -227,10 +225,12 @@ At Waghera Agro Tourism, guests can experience the charm of farm life, enjoy loc
           )}
         </div>
       </section>
+      
 
       <section>
         <ClientSay />
       </section>
+      
 
     </div>
   );
