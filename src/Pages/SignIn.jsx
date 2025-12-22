@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 // ✅ Use a single API base URL
-const API_BASE_URL = "http://localhost:5000/api/auth";
+const API_BASE_URL = "https://backend-waghera.onrender.com/api/auth";
 
 // ✅ Message component with safe fallback
 const Message = ({ type = "info", text }) => {
