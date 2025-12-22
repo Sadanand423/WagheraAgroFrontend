@@ -106,9 +106,9 @@ export default function Footer() {
         </div> */}
 
                <div>
-          <h4 className="text-xl font-semibold mb-4 text-gray-900">Near By Places </h4>
+          <h4 className="text-xl font-semibold mb-4 text-gray-900">Near By Places to Visits</h4>
           <ul className="space-y-3 text-gray-700">
-            <li className="hover:text-[#a8815e] cursor-pointer">Near places</li>
+            {/* <li className="hover:text-[#a8815e] cursor-pointer">Near places</li> */}
             <li className="hover:text-[#a8815e] cursor-pointer">Datta Mandir</li>
             <li className="hover:text-[#a8815e] cursor-pointer">Shivling</li>
             <li className="hover:text-[#a8815e] cursor-pointer">Tracking</li>
