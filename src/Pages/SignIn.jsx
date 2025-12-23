@@ -147,6 +147,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/waghera_logo.png";
 
 // API base URL
 const API_BASE_URL = "https://backend-waghera.onrender.com/api/auth";
@@ -241,6 +242,9 @@ export default function SignIn({ onSwitchToSignUp, onLoginSuccess }) {
   return (
     <div>
       <form onSubmit={handleSignIn}>
+        <div className="flex justify-center mb-4">
+          <img src={logo} alt="Waghera Agro Tourism" className="h-16 w-auto" />
+        </div>
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
           Login To Waghera Agro Tourism
         </h2>
