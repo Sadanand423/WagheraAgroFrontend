@@ -153,7 +153,9 @@ import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import Booking from "../Booking/Booking";
-
+import hero from "../../assets/images/hero.jpeg"
+import hero1 from "../../assets/images/hero1.jpeg"
+import hero2 from "../../assets/images/hero2.jpeg"
 export default function HeroSlider() {
   const swiperRef = useRef(null);
 
@@ -164,7 +166,7 @@ export default function HeroSlider() {
       subtitle: "Welcome to Our Resort",
       description:
         "Waghera Agro Tourism gave us the perfect escape from city life. A beautiful farm stay, friendly staff, and memorable village experiences made our trip special.",
-      image: "https://html.themewant.com/moonlit/assets/images/banner/1.webp",
+      image: hero,
     },
     {
       title1: "Lavish Getaway A Blend of",
@@ -172,7 +174,7 @@ export default function HeroSlider() {
       subtitle: "Welcome to Our Resort",
       description:
         "Waghera Agro Tourism gave us the perfect escape from city life. A beautiful farm stay, friendly staff, and memorable village experiences made our trip special.",
-      image: "https://html.themewant.com/moonlit/assets/images/banner/2.webp",
+     image: hero1,
     },
     {
       title1: "A Perfect Fusion of Comfort",
@@ -181,7 +183,7 @@ export default function HeroSlider() {
       description:
         "Waghera Agro Tourism gave us the perfect escape from city life. A beautiful farm stay, friendly staff, and memorable village experiences made our trip special.",
       image:
-        "https://html.themewant.com/moonlit/assets/images/banner/banner-3.webp",
+        hero2
     },
   ];
 

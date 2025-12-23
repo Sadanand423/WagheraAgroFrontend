@@ -5,6 +5,8 @@ import image from "../assets/images/about-us-small-image.jpeg"
 import image2 from "../assets/images/imgae-small.jpeg"
 import { FaPaw } from "react-icons/fa";
 import { GiRiver } from "react-icons/gi";
+import heroImg from "../assets/images/hero.jpeg";
+
 
 export default function AboutUs() {
   const [team, setTeam] = useState([]);
@@ -22,12 +24,11 @@ export default function AboutUs() {
 
       {/* Hero Section */}
       <div
-        className="relative bg-cover bg-center h-[800px] flex items-center justify-center"
-        style={{
-          backgroundImage:
-            "url('https://html.themewant.com/moonlit/assets/images/pages/header__bg.webp')",
-        }}
-      >
+  className="relative bg-cover bg-center h-[800px] flex items-center justify-center"
+  style={{
+    backgroundImage: `url(${heroImg})`,
+  }}
+>
         <div className="absolute inset-0 bg-black/50 z-0" />
         <div className="absolute inset-0 bg-opacity-50 flex flex-col items-center justify-center text-white text-center">
           <h1 className="text-4xl md:text-7xl  mb-6 mt-45">About Us</h1>

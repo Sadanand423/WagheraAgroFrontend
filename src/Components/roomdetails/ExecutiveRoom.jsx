@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import tent from '../../../src/assets/images/tent.jpeg'
 
 const galleryImages = [
   "https://html.themewant.com/moonlit/assets/images/pages/room/1.webp",
@@ -46,7 +47,7 @@ const ExecutiveRoom = () => {
         </div>
         <div>
           <img
-            src="https://html.themewant.com/moonlit/assets/images/pages/room/1.webp"
+            src={tent}
             alt="Executive Room"
             className="w-full h-96 object-cover rounded-xl shadow"
           />
