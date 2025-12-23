@@ -1,7 +1,8 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import tent from '../../../src/assets/images/tent.jpeg'
+import room from '../../assets/images/room1.jpeg'
 export default function Rooms() {
     const navigate = useNavigate();
     const cards = [
@@ -10,7 +11,7 @@ export default function Rooms() {
             subtitle: "Echoes of Tradition in Wada Vintage Rooms",
             description:
                 "Step into the past at Heritage Wada, our Wada Vintage Rooms, where the essence of Junnar’s heritage is meticulously preserved. These rooms harmoniously blend historic charm with modern comforts, boasting antique furnishings alongside contemporary amenities.",
-            img: "https://html.themewant.com/moonlit/assets/images/pages/room/1.webp",
+            img: tent,
             button: "Explore",
             link: "/room-detail/executive-room"
         },
@@ -20,7 +21,7 @@ export default function Rooms() {
             subtitle: "Echoes of Tradition in Wada Vintage Rooms",
             description:
                 "Step into the past at Heritage Wada, our Wada Vintage Rooms, where the essence of Junnar’s heritage is meticulously preserved. These rooms harmoniously blend historic charm with modern comforts, boasting antique furnishings alongside contemporary amenities.",
-            img: "https://html.themewant.com/moonlit/assets/images/pages/room/1.webp",
+            img: room,
             button: "Explore",
             link: "/room-detail/family-suites"
         },

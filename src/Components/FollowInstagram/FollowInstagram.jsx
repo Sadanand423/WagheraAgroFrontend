@@ -4,15 +4,19 @@ import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
-import img1 from "../../assets/images/img1.png";
-import img2 from "../../assets/images/img2.png";
-import img3 from "../../assets/images/img3.png";
-import img4 from "../../assets/images/img4.png";
-import img5 from "../../assets/images/img5.png";
-import img6 from "../../assets/images/img6.png";
+import img1 from "../../assets/images/room1.jpeg";
+import img2 from "../../assets/images/room2.jpeg";
+import img3 from "../../assets/images/room3.jpeg";
+import img4 from "../../assets/images/room4.jpeg";
+import img5 from "../../assets/images/room5.jpeg";
+import img6 from "../../assets/images/room6.jpeg";
+import img7 from "../../assets/images/room7.jpeg";
+import img8 from "../../assets/images/room1.jpeg";
+import img9 from "../../assets/images/room9.jpeg";
+import img10 from "../../assets/images/room10.jpeg";
 import instagramIcon from "../../assets/icons/instagram.svg";
 
-const images = [img1, img2, img3, img4, img5, img6, img1];
+const images = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10];
 
 export default function FollowInstagram() {
   return (

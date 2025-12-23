@@ -1,11 +1,18 @@
 import { useNavigate } from "react-router-dom";
+import room from '../../assets/images/room1.jpeg'
+// import img1 from "../../assets/images/room1.jpeg";
+// import img2 from "../../assets/images/room2.jpeg";
+import img3 from "../../assets/images/room3.jpeg";
+import img4 from "../../assets/images/room4.jpeg";
+import img5 from "../../assets/images/room5.jpeg";
+import img6 from "../../assets/images/room6.jpeg";
+import img7 from "../../assets/images/room7.jpeg";
+import img8 from "../../assets/images/room1.jpeg";
+import img9 from "../../assets/images/room9.jpeg";
+import img10 from "../../assets/images/room10.jpeg";
+// import instagramIcon from "../../assets/icons/instagram.svg";
 
-const galleryImages = [
-  "https://html.themewant.com/moonlit/assets/images/pages/room/1.webp",
-  "https://html.themewant.com/moonlit/assets/images/pages/room/r-d-2.webp",
-  "https://html.themewant.com/moonlit/assets/images/pages/room/2.webp",
-  "https://html.themewant.com/moonlit/assets/images/pages/room/3.webp",
-];
+const galleryImages = [ img3, img4, img5, img6, img7, img8, img9, img10];
 
 const amenities = [
   { icon: "wifi", label: "Free WiFi" },
@@ -45,7 +52,7 @@ const FamilySuites = () => {
         </div>
         <div>
           <img
-            src="https://html.themewant.com/moonlit/assets/images/pages/room/1.webp"
+            src={room}
             alt="Executive Room"
             className="w-full h-96 object-cover rounded-xl shadow"
           />

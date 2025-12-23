@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import gallery from "../assets/images/gallery.jpeg";
 
 const Gallery = () => {
   const [showVideo, setShowVideo] = useState(false);
@@ -37,10 +38,9 @@ const Gallery = () => {
 
       {/* ---------------- HERO ---------------- */}
       <div
-        className="relative bg-cover bg-center h-[700px] flex items-center justify-center"
+        className="relative bg-cover bg-center h-[800px] flex items-center justify-center"
         style={{
-          backgroundImage:
-            "url('https://html.themewant.com/moonlit/assets/images/pages/header__bg.webp')",
+          backgroundImage: `url(${gallery})`,
         }}
       >
         <div className="absolute inset-0 bg-black/50" />
