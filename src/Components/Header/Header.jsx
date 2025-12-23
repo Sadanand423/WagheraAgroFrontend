@@ -5,7 +5,7 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import Loader from "../Loader";
 import logo from "../../assets/waghera_logo.png";
 
-export default function Header({ onSignInClick, onSignUpClick, bg }) {
+export default function Header({ onSignInClick, onSignUpClick, bg, isLoggedIn: propIsLoggedIn, onLogout }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hideTopHeader, setHideTopHeader] = useState(false);
   const navigate = useNavigate();
@@ -29,6 +29,19 @@ export default function Header({ onSignInClick, onSignUpClick, bg }) {
   const [mobileHomeOpen, setMobileHomeOpen] = useState(false);
   const [mobilePagesOpen, setMobilePagesOpen] = useState(false);
   const [mobileBlogOpen, setMobileBlogOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+
+  // Sync internal login state with prop when provided, otherwise watch localStorage
+  useEffect(() => {
+    if (typeof propIsLoggedIn !== "undefined") {
+      setIsLoggedIn(!!propIsLoggedIn);
+      return;
+    }
+
+    const handleStorage = () => setIsLoggedIn(!!localStorage.getItem("token"));
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, [propIsLoggedIn]);
 
   useEffect(() => {
     // Simulate brief loading (e.g., 800ms)
@@ -316,18 +329,36 @@ export default function Header({ onSignInClick, onSignUpClick, bg }) {
 
         {/* Desktop Buttons */}
         <div className="hidden lg:flex gap-3 font-semibold">
-          <button
-            onClick={onSignInClick} // 🔁 This triggers the modal now
-            className="cursor-pointer border border-gray-300 px-4 py-2 rounded hover:bg-[#a8815e]"
-          >
-            Login
-          </button>
-          <button
-            onClick={onSignUpClick}
-            className="cursor-pointer border border-gray-300 px-4 py-1 rounded hover:bg-[#a8815e]"
-          >
-            Register
-          </button>
+          {!isLoggedIn ? (
+            <>
+              <button
+                onClick={onSignInClick} // 🔁 This triggers the modal now
+                className="cursor-pointer border border-gray-300 px-4 py-2 rounded hover:bg-[#a8815e]"
+              >
+                Login
+              </button>
+              <button
+                onClick={onSignUpClick}
+                className="cursor-pointer border border-gray-300 px-4 py-1 rounded hover:bg-[#a8815e]"
+              >
+                Register
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={() => {
+                // clear storage and notify App via onLogout if provided
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                setIsLoggedIn(false);
+                if (onLogout) onLogout();
+                else window.location.reload();
+              }}
+              className="cursor-pointer border border-gray-300 px-4 py-2 rounded hover:bg-red-500 hover:text-white"
+            >
+              Logout
+            </button>
+          )}
           {loading ? (
             <div className="flex items-center justify-center h-screen">
               <div className="w-12 h-12 border-4 border-[#af7b4f] border-t-transparent rounded-full animate-spin"></div>
@@ -412,32 +443,50 @@ export default function Header({ onSignInClick, onSignUpClick, bg }) {
             ))}
 
             {/* Sign In / Register */}
-            <div
-              onClick={() => {
-                setLoading(true);
-                setMenuOpen(false);
-                setTimeout(() => {
-                  onSignInClick();
-                  setLoading(false);
-                }, 400);
-              }}
-              className="cursor-pointer rounded-lg bg-gray-800 bg-opacity-50 px-4 py-3 hover:bg-yellow-600 hover:text-black transition text-center font-semibold"
-            >
-              Login
-            </div>
-            <div
-              onClick={() => {
-                setLoading(true);
-                setMenuOpen(false);
-                setTimeout(() => {
-                  onSignUpClick();
-                  setLoading(false);
-                }, 400);
-              }}
-              className="cursor-pointer rounded-lg bg-gray-800 bg-opacity-50 px-4 py-3 hover:bg-yellow-600 hover:text-black transition text-center font-semibold"
-            >
-              Register
-            </div>
+            {!isLoggedIn ? (
+              <>
+                <div
+                  onClick={() => {
+                    setLoading(true);
+                    setMenuOpen(false);
+                    setTimeout(() => {
+                      onSignInClick();
+                      setLoading(false);
+                    }, 400);
+                  }}
+                  className="cursor-pointer rounded-lg bg-gray-800 bg-opacity-50 px-4 py-3 hover:bg-yellow-600 hover:text-black transition text-center font-semibold"
+                >
+                  Login
+                </div>
+                <div
+                  onClick={() => {
+                    setLoading(true);
+                    setMenuOpen(false);
+                    setTimeout(() => {
+                      onSignUpClick();
+                      setLoading(false);
+                    }, 400);
+                  }}
+                  className="cursor-pointer rounded-lg bg-gray-800 bg-opacity-50 px-4 py-3 hover:bg-yellow-600 hover:text-black transition text-center font-semibold"
+                >
+                  Register
+                </div>
+              </>
+            ) : (
+              <div
+                onClick={() => {
+                  setMenuOpen(false);
+                  localStorage.removeItem("token");
+                  localStorage.removeItem("user");
+                  setIsLoggedIn(false);
+                  if (onLogout) onLogout();
+                  else window.location.reload();
+                }}
+                className="cursor-pointer rounded-lg bg-gray-800 bg-opacity-50 px-4 py-3 hover:bg-red-500 hover:text-white transition text-center font-semibold"
+              >
+                Logout
+              </div>
+            )}
           </nav>
 
           {/* Sticky Contact Info */}
