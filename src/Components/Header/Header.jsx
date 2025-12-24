@@ -162,7 +162,7 @@ export default function Header({ onSignInClick, onSignUpClick, bg, isLoggedIn: p
       <hr className="border-t border-gray-200 hidden sm:block" />
 
       <nav
-        className={`sticky h-20 top-0 py-4 flex items-center justify-between transition-all duration-300 z-40 px-4 sm:px-24 ${bg === "black"
+        className={`sticky h-20 top-0 py-4 flex items-center justify-center transition-all duration-300 z-40 px-4 sm:px-24 ${bg === "black"
             ? "bg-black text-white shadow-md"
             : isSeasidePage || isOceanbreezePage
               ? scrolled
@@ -172,9 +172,10 @@ export default function Header({ onSignInClick, onSignUpClick, bg, isLoggedIn: p
           }`}
       >
         {loading && <Loader />}
-        {/* Desktop Menu */}
+        
+        {/* Desktop Menu - Left Side */}
         <ul
-          className={`hidden lg:flex gap-5 text-sm font-medium ${bg === "black" || isSeasidePage || isOceanbreezePage
+          className={`hidden lg:flex gap-5 text-sm font-medium absolute left-24 ${bg === "black" || isSeasidePage || isOceanbreezePage
               ? "text-white"
               : "text-gray-700"
             }`}
@@ -317,7 +318,7 @@ export default function Header({ onSignInClick, onSignUpClick, bg, isLoggedIn: p
           </li>
         </ul>
 
-        {/* Logo */}
+        {/* Logo - Centered */}
         <Link to="/">
           <img
             src={logo}
@@ -327,10 +328,11 @@ export default function Header({ onSignInClick, onSignUpClick, bg, isLoggedIn: p
           />
         </Link>
 
-        {/* Desktop Buttons */}
-        <div className="hidden lg:flex gap-3 font-semibold">
+        {/* Desktop Buttons - Right Side */}
+        <div className="hidden lg:flex gap-3 font-semibold absolute right-24">
           {!isLoggedIn ? (
             <>
+            
               <button
                 onClick={onSignInClick} // 🔁 This triggers the modal now
                 className="cursor-pointer border border-gray-300 px-4 py-2 rounded hover:bg-[#a8815e]"
@@ -382,7 +384,10 @@ export default function Header({ onSignInClick, onSignUpClick, bg, isLoggedIn: p
 
         {/* Mobile Menu Button */}
         <div className="flex lg:hidden items-center gap-2 ml-auto">
-          <button className="hidden sm:inline-block bg-yellow-700 text-white px-4 py-1 rounded hover:bg-yellow-800">
+          <button 
+            onClick={handleBookNowClick}
+            className="bg-yellow-700 text-white px-3 py-1 text-sm rounded hover:bg-yellow-800"
+          >
             Book Now
           </button>
           <button
@@ -482,9 +487,9 @@ export default function Header({ onSignInClick, onSignUpClick, bg, isLoggedIn: p
                   if (onLogout) onLogout();
                   else window.location.reload();
                 }}
-                className="cursor-pointer rounded-lg bg-gray-800 bg-opacity-50 px-4 py-3 hover:bg-red-500 hover:text-white transition text-center font-semibold"
+                className="cursor-pointer rounded-lg bg-gray-800 bg-opacity-50 px-4 py-3 hover:bg-yellow-700 hover:text-white transition text-center font-semibold"
               >
-                Logout
+                Logout 
               </div>
             )}
           </nav>

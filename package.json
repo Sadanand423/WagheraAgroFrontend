@@ -31,6 +31,7 @@
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.6.2",
     "react-scroll-parallax": "^3.4.5",
+    "react-toastify": "^11.0.5",
     "recharts": "^3.5.1",
     "swiper": "^11.2.8",
     "tailwind-scrollbar-hide": "^4.0.0",
