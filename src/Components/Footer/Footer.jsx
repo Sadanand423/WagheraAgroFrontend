@@ -2,10 +2,12 @@
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { FaArrowUpLong } from "react-icons/fa6";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Footer() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,8 +69,18 @@ export default function Footer() {
         <div>
           <h4 className="text-xl font-semibold mb-4 text-gray-900">Quick Links</h4>
           <ul className="space-y-3 text-gray-700">
-            <li className="hover:text-[#a8815e] cursor-pointer">Rooms & Tents</li>
-            <li className="hover:text-[#a8815e] cursor-pointer">Dining</li>
+            <li 
+              className="hover:text-[#a8815e] cursor-pointer"
+              onClick={() => window.location.href = '/room-detail'}
+            >
+              Rooms & Tents
+            </li>
+            <li 
+              className="hover:text-[#a8815e] cursor-pointer"
+              onClick={() => window.location.href = '/restaurant'}
+            >
+              Dining
+            </li>
             {/* <li className="hover:text-[#a8815e] cursor-pointer">Spa & Wellness</li> */}
             <li className="hover:text-[#a8815e] cursor-pointer">Special Offers</li>
           </ul>
