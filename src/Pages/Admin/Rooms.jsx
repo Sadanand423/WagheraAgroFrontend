@@ -323,14 +323,15 @@ const Rooms = () => {
 
       const result = await res.json();
 
-      // ✅ VERY IMPORTANT FIX
+      // ✅ VERY IMPORTANT FIX - Handle different response formats
       const roomsArray = Array.isArray(result)
         ? result
-        : result.data || [];
+        : result.data || result.rooms || [];
 
+      console.log("Fetched rooms:", roomsArray); // Debug log
       setRooms(roomsArray);
     } catch (err) {
-      console.error(err);
+      console.error("Fetch rooms error:", err);
       setError("Unable to load rooms");
     } finally {
       setLoading(false);
@@ -401,14 +402,16 @@ const Rooms = () => {
       if (!res.ok) throw new Error("Update failed");
 
       const result = await res.json();
+      const updatedRoom = result.data || result;
 
       setRooms((prev) =>
-        prev.map((r) => (r._id === result.data._id ? result.data : r))
+        prev.map((r) => (r._id === editingRoom._id ? updatedRoom : r))
       );
 
       setEditingRoom(null);
       setFormData(emptyRoom);
     } catch (err) {
+      console.error("Update error:", err);
       alert(err.message);
     }
   };
