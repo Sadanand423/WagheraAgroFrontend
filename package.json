@@ -20,7 +20,7 @@
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "framer-motion": "^12.23.24",
-    "jspdf": "^3.0.4",
+    "jspdf": "^4.0.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.525.0",
     "moment": "^2.30.1",
