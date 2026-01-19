@@ -63,6 +63,22 @@ function App() {
   // ✅ CHECK LOGIN STATUS (reactive)
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
+  // ✅ PREVENT BODY SCROLL WHEN MODAL IS OPEN
+  useEffect(() => {
+    if (showSignIn || showSignUp) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [showSignIn, showSignUp]);
+
   // ✅ CLOSE POPUPS ON ROUTE CHANGE
   useEffect(() => {
     setShowSignIn(false);
@@ -175,11 +191,13 @@ function App() {
       {showSignIn && (
         <div
           onClick={handleOverlayClick}
-          className="fixed inset-0 bg-black/20 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]"
+          style={{ touchAction: 'none' }}
         >
           <div
             ref={modalRef}
-            className="bg-white w-full max-w-md rounded-lg shadow-lg p-6 relative"
+            className="bg-white w-full max-w-md rounded-lg shadow-lg p-6 relative m-4"
+            style={{ touchAction: 'auto' }}
           >
             <button
               onClick={() => setShowSignIn(false)}
@@ -206,11 +224,13 @@ function App() {
       {showSignUp && (
         <div
           onClick={handleOverlayClick}
-          className="fixed inset-0 bg-black/20 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]"
+          style={{ touchAction: 'none' }}
         >
           <div
             ref={modalRef}
-            className="bg-white w-full max-w-md rounded-lg shadow-lg p-6 relative"
+            className="bg-white w-full max-w-md rounded-lg shadow-lg p-6 relative m-4"
+            style={{ touchAction: 'auto' }}
           >
             <button
               onClick={() => setShowSignUp(false)}
