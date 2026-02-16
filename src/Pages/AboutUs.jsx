@@ -1,240 +1,145 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import ClientSay from "../Components/ClientSay/ClientSay";
 import ScrollToTop from "../Components/ScrollToTop";
-import image from "../assets/images/about-us-small-image.jpeg"
-import image2 from "../assets/images/imgae-small.jpeg"
-import { FaPaw } from "react-icons/fa";
-import { GiRiver } from "react-icons/gi";
+import image from "../assets/images/about-us-small-image.jpeg";
+import image2 from "../assets/images/imgae-small.jpeg";
+import { FaPaw, FaLeaf, FaUtensils, FaFire } from "react-icons/fa";
+import { GiRiver, GiMountainRoad } from "react-icons/gi";
+import { MdNaturePeople } from "react-icons/md";
 import heroImg from "../assets/images/hero.jpeg";
 import aboutImage from "../assets/images/aboutimage.jpeg";
 
 export default function AboutUs() {
-  const [team, setTeam] = useState([]);
-
-  // Fetch team members from backend
-  useEffect(() => {
-    axios
-      .get("https://backend-waghera.onrender.com/api/team")
-      .then((res) => setTeam(res.data))
-      .catch((err) => console.error("Team API Error:", err));
-  }, []);
-
   return (
-    <div className=" text-gray-800">
+    <div className="text-gray-800">
       <ScrollToTop />
 
       {/* Hero Section */}
       <div
-  className="relative bg-cover bg-center h-[800px] flex items-center justify-center"
-  style={{
-    backgroundImage: `url(${heroImg})`,
-  }}
->
-        <div className="absolute inset-0 bg-black/50 z-0" />
-        <div className="absolute inset-0 bg-opacity-50 flex flex-col items-center justify-center text-white text-center">
-          <h1 className="text-4xl md:text-7xl  mb-6 mt-45">About Us</h1>
-          <p className="text-xl">
-            Whether you have questions, need answers, or simply want to chat.
-          </p>
+        className="relative bg-cover bg-center h-[60vh] sm:h-[70vh] md:h-[80vh] flex items-center justify-center"
+        style={{ backgroundImage: `url(${heroImg})` }}
+      >
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="relative z-10 text-center text-white px-4">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4">About Waghera Agro Tourism</h1>
+          <p className="text-lg sm:text-xl max-w-2xl mx-auto">Experience authentic farm life in the heart of Mahabaleshwar</p>
         </div>
       </div>
 
       {/* Welcome Section */}
-      <section className="bg-white py-20 px-4 sm:px-6 md:px-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative">
-
-          {/* Left Images */}
+      <section className="bg-white py-16 sm:py-20 px-4 sm:px-6 md:px-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="relative flex justify-center items-center">
-            <img
-              src={image}
-              alt="Landscape"
-              className="w-[90%] sm:w-[500px] md:w-[500px] h-[300px] sm:h-[400px] md:h-[500px] rounded-xl shadow-lg object-cover"
-            />
-
-            <img
-              src={image2}
-              alt="Hiker"
-              className="absolute bottom-[-70px] left-1/2 sm:left-[30%] w-[250px] sm:w-[300px] md:w-[380px] border-4 border-white rounded-xl shadow-xl transform -translate-x-1/2 sm:translate-x-0"
-            />
+            <img src={image} alt="Landscape" className="w-full max-w-[500px] h-[300px] sm:h-[400px] md:h-[500px] rounded-xl shadow-lg object-cover" />
+            <img src={image2} alt="Nature" className="absolute bottom-[-50px] sm:bottom-[-70px] left-1/2 sm:left-[30%] w-[200px] sm:w-[300px] md:w-[380px] border-4 border-white rounded-xl shadow-xl transform -translate-x-1/2 sm:translate-x-0" />
           </div>
 
-          {/* Right Text */}
-          <div className="text-center md:text-left mt-28 md:mt-0">
-            <h4 className="text-[#a1865e] text-xl sm:text-2xl font-semibold tracking-wide mb-3">
-              ―⟡ About Us
-            </h4>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl  text-gray-900 leading-tight mb-6">
-              {/* Welcome To Our Waghera Agro Tourism Hotel & Resort */}
-               Welcome to Waghera Agro Tourism, Mahabaleshwar
-            </h2>
-            <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-10">
-             Where nature, tradition, and comfort come together in perfect harmony.
-
-Located in the breathtaking hills of Mahabaleshwar, Waghera Agro Tourism is a peaceful retreat surrounded by lush greenery, fresh mountain air, and scenic views. Designed for travelers seeking relaxation and authenticity, our agro tourism stay offers a refreshing break from the fast-paced city lifestyle.
-At Waghera Agro Tourism, guests can experience the charm of farm life, enjoy locally grown fresh food, and immerse themselves in the calm beauty of nature — all while enjoying clean, comfortable, and well-maintained accommodations. Whether you’re waking up to birdsong, enjoying a walk through green fields, or spending quality time with family by a cozy evening bonfire, every moment here is crafted to create lasting memories.
-
-
-
+          <div className="text-center md:text-left mt-20 sm:mt-28 md:mt-0">
+            <h4 className="text-[#a1865e] text-xl sm:text-2xl font-semibold mb-3">―⟡ About Us</h4>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">Welcome to Waghera Agro Tourism</h2>
+            <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-6">
+              Nestled in the scenic hills of Mahabaleshwar, Waghera Agro Tourism offers a perfect blend of nature, comfort, and authentic rural experiences. Surrounded by lush greenery and fresh mountain air, our resort is designed for travelers seeking peace and connection with nature.
             </p>
-            <img
-              src="https://html.themewant.com/moonlit/assets/images/index-4/about/sign.webp"
-              alt="Signature"
-              className="mx-auto md:mx-0 w-40 sm:w-56 mt-6"
-            />
+            <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
+              From farm-fresh meals to cozy accommodations, every detail is crafted to provide you with a memorable stay. Wake up to birdsong, explore green fields, and enjoy quality time with loved ones around a bonfire under the stars.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="bg-[#f9f7f4] py-16 px-4 sm:px-6 md:px-24">
+        <div className="text-center mb-12">
+          <h4 className="text-[#a1865e] text-xl sm:text-2xl font-semibold mb-3">―◇ Why Choose Us</h4>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">What Makes Us Special</h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+            <FaLeaf className="text-[#a1865e] text-5xl mx-auto mb-4" />
+            <h3 className="text-xl font-semibold mb-3">Organic Farm Experience</h3>
+            <p className="text-gray-600">Experience authentic farm life with organic produce and traditional farming methods</p>
           </div>
 
+          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+            <GiMountainRoad className="text-[#a1865e] text-5xl mx-auto mb-4" />
+            <h3 className="text-xl font-semibold mb-3">Scenic Location</h3>
+            <p className="text-gray-600">Surrounded by breathtaking hills and valleys of Mahabaleshwar</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+            <FaUtensils className="text-[#a1865e] text-5xl mx-auto mb-4" />
+            <h3 className="text-xl font-semibold mb-3">Farm-Fresh Cuisine</h3>
+            <p className="text-gray-600">Enjoy delicious meals prepared with fresh ingredients from our farm</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+            <FaPaw className="text-[#a1865e] text-5xl mx-auto mb-4" />
+            <h3 className="text-xl font-semibold mb-3">Pet Friendly</h3>
+            <p className="text-gray-600">Bring your furry friends along for a memorable vacation</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+            <GiRiver className="text-[#a1865e] text-5xl mx-auto mb-4" />
+            <h3 className="text-xl font-semibold mb-3">River Swimming</h3>
+            <p className="text-gray-600">Refresh yourself in the natural river flowing through our property</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+            <FaFire className="text-[#a1865e] text-5xl mx-auto mb-4" />
+            <h3 className="text-xl font-semibold mb-3">Bonfire Nights</h3>
+            <p className="text-gray-600">Enjoy cozy evenings around the bonfire with family and friends</p>
+          </div>
         </div>
       </section>
 
       {/* Facilities Section */}
-      <section className="bg-[#f4f4f4] px-6 md:px-21  py-15 relative">
-        <div className="grid md:grid-cols-2 items-center gap-13 relative z-10">
+      <section className="bg-white py-16 px-4 sm:px-6 md:px-24">
+        <div className="grid md:grid-cols-2 items-center gap-12">
+          <div className="order-2 md:order-1">
+            <img src={aboutImage} alt="Resort" className="rounded-xl w-full h-[300px] sm:h-[400px] md:h-[500px] shadow-lg object-cover" />
+          </div>
 
-          <div className="mb-5">
-            <p className="text-[#a1865e] text-3xl mb-5 ">―◇ Facilities</p>
-            <h2 className="text-4xl md:text-6xl  text-gray-900 mb-20">
-              Resort Facilities
-            </h2>
-
-            <div className="grid grid-cols-2 gap-y-10 gap-x-6 text-gray-800 text-[15px]">
-
-              {/* 1 */}
-              <div>
-                <div className="items-start gap-3 mb-2">
-                  <span className="text-[#b88d56] text-7xl">
-                    <img src="https://html.themewant.com/moonlit/assets/images/icon/bed.svg" />
-                  </span>
-                  <h4 className="font-medium text-3xl mt-7 mb-7">Rooms and Tents</h4>
+          <div className="order-1 md:order-2">
+            <h4 className="text-[#a1865e] text-xl sm:text-2xl font-semibold mb-3">―◇ Our Facilities</h4>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-8">Comfort Meets Nature</h2>
+            
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="bg-[#a1865e] text-white p-3 rounded-lg">
+                  <MdNaturePeople className="text-2xl" />
                 </div>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  Varied types of rooms, from standard to luxury suites.
-                </p>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Comfortable Accommodations</h3>
+                  <p className="text-gray-600">Well-maintained rooms and tents with modern amenities</p>
+                </div>
               </div>
 
-              {/* 2 */}
-              <div>
-                <div className=" items-start gap-3 mb-2">
-                  <span className="text-[#b88d56] text-7xl">
-                    <img src="https://html.themewant.com/moonlit/assets/images/icon/security.svg" />
-                  </span>
-                  <h4 className="font-medium text-3xl mt-7 mb-7">24-Hour Security</h4>
+              <div className="flex items-start gap-4">
+                <div className="bg-[#a1865e] text-white p-3 rounded-lg">
+                  <FaUtensils className="text-2xl" />
                 </div>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  Security personnel and surveillance.
-                </p>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Restaurant & Dining</h3>
+                  <p className="text-gray-600">Traditional and modern cuisine with farm-fresh ingredients</p>
+                </div>
               </div>
 
-              {/* 3 */}
-           {/* 3 - Pet Friendly */}
-<div>
-  <div className="items-start gap-3 mb-6 mt-10">
-    <span className="text-[#b88d56] text-4xl block">
-      <FaPaw />
-    </span>
-    <h4 className="font-medium text-3xl mt-10">Pet Friendly</h4>
-  </div>
-  <p className="text-xl text-gray-600 leading-relaxed">
-    We warmly welcome pets with comfortable spaces, open areas.
-  </p>
-</div>
-
-{/* 4 - River Swimming */}
-<div>
-  <div className="items-start gap-3 mb-6 mt-10">
-    <span className="text-[#b88d56] text-4xl block">
-      <GiRiver />
-    </span>
-    <h4 className="font-medium text-3xl mt-10">River Swimming</h4>
-  </div>
-  <p className="text-xl text-gray-600 leading-relaxed">
-    Enjoy natural river swimming in a serene environment.
-  </p>
-</div>
-
-
+              <div className="flex items-start gap-4">
+                <div className="bg-[#a1865e] text-white p-3 rounded-lg">
+                  <GiMountainRoad className="text-2xl" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Adventure Activities</h3>
+                  <p className="text-gray-600">Trekking, nature walks, and nearby tourist attractions</p>
+                </div>
+              </div>
             </div>
           </div>
-
-          {/* Right Image */}
-          <div className="w-full">
-            <img
-              src={aboutImage}
-              alt="Hotel"
-              className="rounded-md w-full h-48 sm:h-64 md:h-170 shadow-md object-cover"
-            />
-          </div>
-
         </div>
       </section>
 
-      {/* Meet The Team – BACKEND CONNECTED */}
-      <section className="bg-white py-16 px-4 sm:px-6 md:px-24 text-center">
-        <h4 className="text-yellow-800 text-base  mb-2">
-          <span className="flex items-center justify-center text-[#a8815e] gap-2 text-lg sm:text-2xl ">
-            <span className="flex items-center">
-              <span className="text-sm sm:text-lg">◇</span>
-              <span className="w-6 sm:w-10 h-px bg-black"></span>
-            </span>
-            Our Team
-            <span className="flex items-center">
-              <span className="w-6 sm:w-10 h-px bg-black"></span>
-              <span className="text-sm sm:text-lg">◇</span>
-            </span>
-          </span>
-        </h4>
-
-        <h2 className="text-3xl sm:text-5xl  text-gray-900 mb-10">
-          Meet The Team
-        </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-
-          {team.length === 0 ? (
-            <p className="text-gray-500 text-xl">Loading team...</p>
-          ) : (
-            team.map((member) => (
-              <div key={member.id} className="text-center">
-                <img
-                  src={member.imageUrl}
-                  className="mx-auto w-64 h-64 object-cover rounded-lg shadow-lg mb-4"
-                  alt={member.name}
-                />
-                <h3 className="text-lg font-semibold">{member.name}</h3>
-                <p className="text-sm text-gray-500">{member.role}</p>
-
-                {/* Social Icons */}
-                <div className="flex justify-center gap-3 mt-5">
-                  <a className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-400 hover:bg-blue-600 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" className="w-4 h-4">
-                      <path d="M22 12a10 10 0 10-11.6 9.87v-6.99h-2.5V12h2.5V9.8c0-2.46 1.47-3.82 3.72-3.82 1.08 0 2.22.19 2.22.19v2.44h-1.25c-1.23 0-1.61.76-1.61 1.54V12h2.74l-.44 2.88h-2.3v6.99A10 10 0 0022 12z" />
-                    </svg>
-                  </a>
-
-                  <a className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-400 hover:bg-blue-800 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" className="w-4 h-4">
-                      <path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 8h5v16H0V8zm7.5 0h4.6v2.2h.1c.6-1.1 2.1-2.2 4.3-2.2 4.6 0 5.5 3 5.5 6.9V24h-5v-7.1c0-1.7 0-3.9-2.4-3.9s-2.8 1.8-2.8 3.7V24h-5V8z" />
-                    </svg>
-                  </a>
-
-                  <a className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-400 hover:bg-green-600 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 32 32" className="w-4 h-4">
-                      <path d="M16.004 2.667C8.636 2.667 2.67 8.633 2.67 16.001a13.3 13.3 0 001.76 6.602L2.28 29.72l7.291-2.073a13.299 13.299 0 006.432 1.646h.001c7.368 0 13.334-5.966 13.334-13.334S23.372 2.667 16.004 2.667zm7.833 18.944c-.333.933-1.95 1.797-2.677 1.917-.68.107-1.56.153-2.509-.16a18.05 18.05 0 01-3.073-1.349c-5.408-3.33-5.907-6.114-5.751-7.134.147-.987.874-1.5 1.34-1.727.36-.174.837-.253 1.12-.253.213 0 .4.01.563.018.183.008.426-.068.667.51.253.6.857 2.071.933 2.22.08.147.133.32.026.507-.106.187-.16.3-.313.467-.16.173-.334.387-.477.52-.16.147-.327.313-.14.613.187.293.84 1.393 1.807 2.259 1.24 1.104 2.284 1.453 2.58 1.613.28.147.44.133.6-.08.16-.214.693-.8.88-1.08.187-.28.373-.233.626-.14.253.093 1.6.76 1.867.893.28.133.467.2.534.313.066.107.066.987-.267 1.92z" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      </section>
-      
-
-      <section>
-        <ClientSay />
-      </section>
-      
-
+      <ClientSay />
     </div>
   );
 }
